@@ -3,7 +3,8 @@
 <?php
 
     function lireLignes(){
-        include_once "../pdo_agile.php";
+        $cheminParent = dirname(__DIR__);
+        include_once $cheminParent . '/pdo_agile.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
         $sql = "Select * from vik_ligne";
         $nbLignes = LireDonneesPDO1($conn,$sql,$tab);
@@ -20,6 +21,3 @@
 
     
 ?>
-
-
-
