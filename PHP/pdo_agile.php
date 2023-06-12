@@ -1,11 +1,11 @@
 ﻿<?php
-// E.Porcq  pdo_oracle.php  11/10/2016
 
-$db_usernameOracle = "agile_1";
+
+	$db_usernameOracle = "agile_1";
 	$db_passwordOracle = "agile_1"; 
 	$dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
+	$conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
 
-//---------------------------------------------------------------------------------------------
 function OuvrirConnexionPDO($db,$db_username,$db_password)
 {
 	try
@@ -117,4 +117,10 @@ function fabriquerChaineConnexPDO()
 	return $db;
 }
 
+function afficherTab($obj)
+	{
+		echo "<PRE>";
+		print_r($obj);
+		echo "</PRE>";
+	}
  ?>

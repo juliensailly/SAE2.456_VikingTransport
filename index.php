@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <?php
 
-
 include 'reservation_Ninscrit_ligne_unique.php';
-include 'pdo_agile.php';
 include 'visua_lignes.php';
 ?>
 <html lang="fr">
@@ -15,15 +13,32 @@ include 'visua_lignes.php';
     <title>Page d'accueil</title>
 </head>
     <body>
-        <h1>Réservation de trajet</h1>
+        <h1>Réservation de voyage</h1>
         <h3>Choisir une ligne</h3>
         <select>
             <?php
             lirelignes();
             ?>
         </select>
-        <h4>Choisir un arrêt de départ</h4>
-        <h4>Choisir un arrêt de destination</h4>
+        <fieldset>
+            <legend>Choisir un arrêt de départ :</legend>
+            <div>
+                <input type="radio" id="nom" value="Name">
+                <label for="nom">Test</label> 
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Choisir un arrêt d'arrivée :</legend>
+            
+        </fieldset>
+        
         <button type="button">Valider</button>
+        <button type="button">Annuler</button>
+        <select>
+            <?php
+        TrajetinterLigne();
+        ?>
+            </select>
     </body>
+    
 </html>
