@@ -43,7 +43,7 @@
             from vik_noeud noe
             join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
             join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
-            where lig_num='1A'
+            where lig_num='$lig_num'
             group by (com1.com_code_insee, com2.com_code_insee, noe_distance_prochain)
         )
         order by min_horaire";
@@ -74,8 +74,23 @@
             }
             echo "<td/> </tr>";
         }
-        
-        $sql3 = "select sql.com_code_insee as com_code_insee, vik_commune.com_nom as com_nom from ( " . $sql . " ) sql
+
+        $sql5 = "create or replace view stationDesc as select com_code_insee, arrivee, noe_distance_prochain from 
+        (
+            select com1.com_code_insee as com_code_insee, com2.com_code_insee as arrivee, noe_distance_prochain, min(noe_heure_passage) as min_horaire
+            from vik_noeud noe
+            join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
+            join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
+            where lig_num='$lig_num'
+            group by (com1.com_code_insee, com2.com_code_insee, noe_distance_prochain)
+        )
+        order by min_horaire desc";
+        $cur5 = preparerRequetePDO($conn, $sql5);
+        $cur5 = $cur5->fetch(PDO::FETCH_ASSOC);
+        $nbLignes5 = LireDonneesPDO1($conn, $sql5, $tab5);
+        LireDonneesPDOPreparee($cur5, $com5);
+
+        $sql3 = "select sql.com_code_insee as com_code_insee, vik_commune.com_nom as com_nom from stationDesc sql
         join vik_commune on (sql.com_code_insee = vik_commune.com_code_insee)
         where rownum <= 1";
         $cur3 = preparerRequetePDO($conn, $sql3);
@@ -89,6 +104,7 @@
         }
 
         $sql4 = "SELECT to_char(noe_heure_passage, 'hh24:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where com_code_insee = '" . $com3[0]["COM_CODE_INSEE"] . "') and lig_num = '$lig_num' order by horaire";
+        echo $sql4 . "<br>";
         $cur4 = preparerRequetePDO($conn, $sql4);
         $com4 = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignesCom = LireDonneesPDO1($conn, $sql4, $tab4);
