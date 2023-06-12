@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
 <nav>
     <ul>
       <li><a href="PHP/compte/connexion/formulaire.html">CONNEXION</a></li>
@@ -21,6 +22,5 @@
       <li><a href="PHP/choix_manuel/trajet.php">CHOISIR MANUELLEMENT</a></li>
     </ul>
   </nav>
-
 </body>
 </html>

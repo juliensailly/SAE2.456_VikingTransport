@@ -1,18 +1,22 @@
-
-
 <?php
 
-    function lireLignes($input,$chemin){
-        include_once '../pdo_agile.php';
-        include_once '../param_connexion_etu.php';
-        $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
 
-        $erreur = false;
-        $sqlLigParA = "select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
+function lireLignes()
+{
+    $db_usernameOracle = "agile_1";
+    $db_passwordOracle = "agile_1";
+    $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
+
+    $cheminParent = dirname(__DIR__);
+    include_once $cheminParent . '/pdo_agile.php';
+    $conn = ouvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
+
+
+    $erreur = false;
+    $sqlLigParA = "select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term
                     where lig_num like '%A%' order by to_number(rtrim(trim(lig_num),'AB')) ";
-        // echo sqlLigParA;
         $sqlLigParB ="select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term
@@ -34,6 +38,7 @@
             }
         }
     }
+}
 
-    
+
 ?>
