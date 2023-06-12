@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php
+
+//include 'reservation_Ninscrit_ligne_unique.php';
+include 'pdo_agile.php';
+include 'visua_lignes.php';
+?>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +13,16 @@
     <link rel="stylesheet" href="style.css">
     <title>Page d'accueil</title>
 </head>
-<body>
-    
-</body>
+    <body>
+        <h1>Réservation de trajet</h1>
+        <h3>Choisir une ligne</h3>
+        <select>
+            <?php
+            lirelignes();
+            ?>
+        </select>
+        <h4>Choisir un arrêt de départ</h4>
+        <h4>Choisir un arrêt de destination</h4>
+        <button type="button">Valider</button>
+    </body>
 </html>
