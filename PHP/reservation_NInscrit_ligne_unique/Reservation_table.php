@@ -26,6 +26,7 @@ function TableArriver(){
 
     $nbLignes = LireDonneesPDO1($conn,$sqlRequeteArrivee,$tabC);
 
+
        // afficherTab($tabB);
 
     if($nbLignes == 0){
@@ -76,6 +77,7 @@ function TableDepart(){
            echo" <div><input type='radio' id='nom' name='depp'><label for='nom'>",$tabV[$i]["DEPART"],"</label> </div>";
         }
     }
+
 }
 
 
@@ -110,6 +112,7 @@ function lireLignes(){
             $y= $i+1;
             echo "<option value='".$tabB[$i]["LIG_NUM"]."'>",$tabB[$i]["LIG_NUM"]," ", $tabB[$i]["DEPART"]," - ",$tabB[$i]["ARRIVEE"],"</option>";
             $test[$i] = $tabA[$i]["LIG_NUM"];
+
         }
     }
 }
