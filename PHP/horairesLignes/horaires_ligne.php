@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=${2:device-width}, initial-scale=${3:1.0}">
+    <link rel="stylesheet" href="../../CSS/style.css">
     <?php
     if (isset($_GET['ligne']) && $_GET['ligne'] != "") {
         echo "<title>Horaires de la ligne " . $_GET['ligne'] . "</title>";
@@ -90,7 +91,7 @@
             $com2 = $cur2->fetch(PDO::FETCH_ASSOC);
             // $nbLignesCom2 = LireDonneesPDO1($conn, $sql2, $tab2);
             LireDonneesPDOPreparee($cur2, $com2);
-            echo "<tr> <td>" . $com2[0]["COM_NOM"] . "</td> <td>";
+            echo "<tr> <td>" . $com2[0]["COM_NOM"] . "</td>";
             for ($j = 0; $j < $nbLignesCom; $j++) {
                 if (isset($com[$j]["HORAIRE"]) && $com[$j]["HORAIRE"] != "") {
                     echo "<td>" . $com[$j]["HORAIRE"] . "</td> ";
@@ -98,7 +99,7 @@
                     echo "<td> - </td>";
                 }
             }
-            echo "<td/> </tr>";
+            echo "</tr>";
         }
 
         $sql5 = "create or replace view stationDesc as select com_code_insee, arrivee, noe_distance_prochain from 
@@ -124,7 +125,7 @@
         $nbLignes5 = LireDonneesPDO1($conn, $sql5, $tab5);
         LireDonneesPDOPreparee($cur3, $com3);
         if (isset($com3[0]["COM_NOM"]) && $com3[0]["COM_NOM"] != "") {
-            echo "<tr><td>" . $com3[0]["COM_NOM"] . "</td> <td>";
+            echo "<tr><td>" . $com3[0]["COM_NOM"] . "</td>";
         } else {
             echo "<td> - </td>";
         }
@@ -143,7 +144,7 @@
             }
         }
 
-        echo "<td/> </tr>";
+        echo "</tr>";
         echo "</table>";
         $cur->closeCursor();
     }
