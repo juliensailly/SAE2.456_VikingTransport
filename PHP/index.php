@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 
-include 'reservation_Ninscrit_ligne_unique.php';
+//include 'reservation_Ninscrit_ligne_unique.php';
 include 'pdo_agile.php';
 include 'visua_lignes.php';
 ?>
