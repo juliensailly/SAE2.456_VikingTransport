@@ -67,6 +67,7 @@ function LireDonneesPDO2($conn,$sql,&$tab) // requêtes select non préparées
 	$i=0;
 	foreach  ($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
 		$tab[$i++] = $ligne;
+		echo $i;
 	$nbLignes = $i;
 	return $nbLignes;
 }
