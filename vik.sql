@@ -5748,3 +5748,7 @@ select count(*) from vik_noeud;
 select noe_distance_prochain from vik_noeud;
 */
 -- delete from vik_noeud;
+
+select * from vik_noeud where lig_num = '1A';
+select lig_num, to_char(noe_heure_passage, 'hh:mi') from vik_noeud where lig_num = '1A' order by to_char(noe_heure_passage, 'hh:mi:ss');
+select com_code_insee from vik_noeud where lig_num = '1A';
