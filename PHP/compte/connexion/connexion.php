@@ -16,6 +16,9 @@
         $sql = "select cli_password from vik_client where cli_courriel = '$email'";
         $req = LireDonneesPDO2($conn, $sql, $tab);
         if(password_verify($password, $tab[0]['CLI_PASSWORD'])){
+            session_start();
+            $_SESSION['email'] = $email;
+            echo "<a href='../modifier_profil/showProfil.php'>Retour</a>";
             echo "Connexion réussie";
         }else{
             echo "Mot de passe incorrect";
