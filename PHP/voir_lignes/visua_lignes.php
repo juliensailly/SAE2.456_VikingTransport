@@ -28,9 +28,9 @@
         }
         if(!$erreur){
             for($i=0; $i<$nbLignes; $i++) {
-                echo "<option value='horaires_ligne.php?".$tabA[$i]['lig_num']."'>".$tabA[$i]["lig_num"]." - ".$tabA[$i]['DEPART']." → ".$tabA[$i]['ARRIVEE']."</option>";
+                echo "<option value='PHP/horairesLignes/horaires_ligne.php?ligne=".$tabA[$i]['LIG_NUM']."'>".$tabA[$i]["LIG_NUM"]." - ".$tabA[$i]['DEPART']." → ".$tabA[$i]['ARRIVEE']."</option>";
                 $y= $i+1;
-                echo "<option value='horaires_ligne.php?".$tabB[$i]['lig_num']."'>".$tabB[$i]["lig_num"]." - ".$tabB[$i]['DEPART']." → ".$tabB[$i]['ARRIVEE']."</option>";
+                echo "<option value='PHP/horairesLignes/horaires_ligne.php?ligne=".$tabB[$i]['LIG_NUM']."'>".$tabB[$i]["LIG_NUM"]." - ".$tabB[$i]['DEPART']." → ".$tabB[$i]['ARRIVEE']."</option>";
             }
         }
     }
