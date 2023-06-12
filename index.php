@@ -6,8 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Page d'accueil</title>
-</head>
-<body>
     
+</head>
+
+<body>
+    <form>
+        <select name="menuHoraire" id="menuHoraire">
+            <?php
+                include_once "PHP/voir_lignes/visua_lignes.php";
+                lireLignes();
+            ?>
+        </select>
+
+    </form>
 </body>
 </html>
