@@ -19,6 +19,8 @@
 
         if(isEmailExist($_POST["email"], $conn)){
             echo "L'email existe déjà";
+            echo "<br>";
+            echo "<a href='formulaire.html'>Retour</a>";
         }else{
             $sql = "SELECT nvl(MAX(CLI_NUM), 0) as maxi FROM vik_client";
             $max = LireDonneesPDO2($conn,$sql,$tab);
@@ -26,16 +28,17 @@
 
             $date_good = "to_date('$datenaiss', 'yyyy/mm/dd')";
 
-            $password = password_hash($password, CRYPT_SHA256);
+            $password = hashPassword($_POST["password"]);
             
             $sql = "INSERT INTO vik_client (CLI_NUM, CLI_NOM, CLI_PRENOM, CLI_COURRIEL, CLI_PASSWORD, CLI_DATE_NAISS) 
                 VALUES ('$nb', '$nom', '$prenom', '$email', '$password', $date_good)";
             $nbLignes = majDonneesPDO($conn,$sql);
-            
 
-            if($nbLignes == 0)
+            if($nbLignes == 0){
                 echo "erreur";
-            else{
+                echo "<br>";
+                echo "<a href='formulaire.html'>Retour</a>";
+            }else{
                 echo "Votre compte a bien été créé";
             }
         }
@@ -67,5 +70,9 @@
         $req = LireDonneesPDO2($conn, $sql, $tab);
         if($req == 0) return false;
         return true;
+    }
+    
+    function hashPassword($password){
+        return password_hash($password, CRYPT_SHA256);
     }
 ?>
