@@ -74,19 +74,21 @@
             }
             echo "<td/> </tr>";
         }
-        echo "<tr> <td>";
-        $sql3 = "SELECT com_nom from (" . $sql . ") where com_code_insee = '" . $ligne[$i]["COM_CODE_INSEE"] . "'";
+        
+        $sql3 = "select sql.com_code_insee as com_code_insee, vik_commune.com_nom as com_nom from ( " . $sql . " ) sql
+        join vik_commune on (sql.com_code_insee = vik_commune.com_code_insee)
+        where rownum <= 1";
         $cur3 = preparerRequetePDO($conn, $sql3);
         $com3 = $cur3->fetch(PDO::FETCH_ASSOC);
         // $nbLignesCom2 = LireDonneesPDO1($conn, $sql2, $tab2);
         LireDonneesPDOPreparee($cur3, $com3);
         if (isset($com3[0]["COM_NOM"]) && $com3[0]["COM_NOM"] != "") {
-            echo "<td>" . $com3[0]["COM_NOM"] . "</td> <td>";
+            echo "<tr><td>" . $com3[0]["COM_NOM"] . "</td> <td>";
         } else {
             echo "<td> - </td>";
         }
 
-        $sql4 = "SELECT to_char(noe_heure_passage, 'hh24:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where com_code_insee = '" . $ligne[$i]["COM_CODE_INSEE"] . "') and lig_num = '$lig_num' order by horaire";
+        $sql4 = "SELECT to_char(noe_heure_passage, 'hh24:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where com_code_insee = '" . $com3[0]["COM_CODE_INSEE"] . "') and lig_num = '$lig_num' order by horaire";
         $cur4 = preparerRequetePDO($conn, $sql4);
         $com4 = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignesCom = LireDonneesPDO1($conn, $sql4, $tab4);
