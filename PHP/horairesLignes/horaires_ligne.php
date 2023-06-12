@@ -90,7 +90,7 @@
         $nbLignes5 = LireDonneesPDO1($conn, $sql5, $tab5);
         LireDonneesPDOPreparee($cur5, $com5);
 
-        $sql3 = "select vik_commune.com_code_insee, vik_commune.com_nom as com_nom from stationDesc sql
+        $sql3 = "select sql.com_code_insee, vik_commune.com_code_insee, vik_commune.com_nom as com_nom from stationDesc sql
         join vik_commune on (sql.arrivee = vik_commune.com_code_insee)
         where rownum <= 1";
         $cur3 = preparerRequetePDO($conn, $sql3);
@@ -103,21 +103,19 @@
             echo "<td> - </td>";
         }
 
-        $sql4 = "SELECT to_char(noe_heure_passage, 'hh24:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where com_code_insee = '" . $com3[0]["COM_CODE_INSEE"] . "') and lig_num = '$lig_num' order by horaire";
+        $sql4 = "select to_char(noe_heure_passage+(noe_duree_prochain/24/60),'hh24:mi') as horaire_passage_new, to_char(noe_heure_passage,'hh24:mi') as horaire_passage_old, noe_duree_prochain from vik_noeud where lig_num = '$lig_num' and com_code_insee = (select com_code_insee from stationDesc where rownum <= 1) and vik_noeud.com_code_insee_suivant = (select stationDesc.arrivee from stationDesc where rownum <= 1)";
         $cur4 = preparerRequetePDO($conn, $sql4);
         $com4 = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignesCom = LireDonneesPDO1($conn, $sql4, $tab4);
         LireDonneesPDOPreparee($cur4, $com4);
 
         for ($j = 0; $j < $nbLignesCom; $j++) {
-            if (isset($com4[$j]["HORAIRE"]) && $com4[$j]["HORAIRE"] != "") {
-                echo "<td>" . $com4[$j]["HORAIRE"] . "</td> ";
+            if (isset($com4[$j]["HORAIRE_PASSAGE_NEW"]) && $com4[$j]["HORAIRE_PASSAGE_NEW"] != "") {
+                echo "<td>" . $com4[$j]["HORAIRE_PASSAGE_NEW"] . "</td> ";
             } else {
                 echo "<td> - </td>";
             }
         }
-
-
 
         echo "<td/> </tr>";
         echo "</table>";
