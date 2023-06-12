@@ -10,7 +10,13 @@
 <body>
     <?php
 
-    include "pdo_agile.php";
+    $db_usernameOracle = "agile_1";
+    $db_passwordOracle = "agile_1";
+    $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
+
+    $conn = ouvrirConnexionPDO($db, $db_username, $db_password);
+
+    include_once "pdo_agile.php";
     if (isset($_GET['ligne']) && $_GET['ligne'] != "") {
         echo "<a href='../../index.php'>Retour à l'accueil</a>";
         $sql = "select lig_num from vik_ligne where lig_num = '" . $_GET['ligne'] . "'";
@@ -27,16 +33,16 @@
         $ligne = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         LireDonneesPDOPreparee($cur, $ligne);
-        for($i = 0; $i < $nbLignes; $i++) {
+        for ($i = 0; $i < $nbLignes; $i++) {
             $sql = "SELECT com_nom FROM vik_commune WHERE com_code_insee = (SELECT com_code_insee FROM vik_noeud WHERE to_char(noe_heure_passage, 'hh:mi') = '" . $ligne[$i]["HORAIRE"] . "' and lig_num = '$lig_num')";
             $cur = preparerRequetePDO($conn, $sql);
             $com = $cur->fetch(PDO::FETCH_ASSOC);
             LireDonneesPDOPreparee($cur, $com);
             if (isset($com[0]["COM_NOM"])) {
-                echo "<p>" . $ligne[$i]["HORAIRE"] . " " .$com[0]["COM_NOM"] . "</p>";
+                echo "<p>" . $ligne[$i]["HORAIRE"] . " " . $com[0]["COM_NOM"] . "</p>";
             }
         }
-       
+
 
         $sql = "SELECT com_nom from vik_commune where com_code_insee in (select com_code_insee from vik_noeud where lig_num = '$lig_num')";
         $cur = preparerRequetePDO($conn, $sql);
@@ -44,16 +50,16 @@
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         LireDonneesPDOPreparee($cur, $ligne);
         echo "<table> <tr> <th>Communes desservies</th> <th colspan=100%>Horaires</th> </tr>";
-        for($i = 0; $i < $nbLignes; $i++) {
+        for ($i = 0; $i < $nbLignes; $i++) {
             $sql = "SELECT to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where upper(com_nom) = '" . strtoupper($ligne[$i]["COM_NOM"]) . "') and lig_num = '$lig_num' order by horaire";
-            echo $i."→".$sql;
+            echo $i . "→" . $sql;
             $cur = preparerRequetePDO($conn, $sql);
             $com = $cur->fetch(PDO::FETCH_ASSOC);
             $nbLignesCom = LireDonneesPDO1($conn, $sql, $tab);
             LireDonneesPDOPreparee($cur, $com);
             echo "<tr> <td>" . $ligne[$i]["COM_NOM"] . "</td> <td>";
             for ($j = 0; $j < $nbLignesCom; $j++) {
-                echo "<td>".$com[$j]["HORAIRE"] . "</td> ";
+                echo "<td>" . $com[$j]["HORAIRE"] . "</td> ";
             }
             echo "<td/> </tr>";
         }
@@ -64,4 +70,5 @@
     }
     ?>
 </body>
+
 </html>
