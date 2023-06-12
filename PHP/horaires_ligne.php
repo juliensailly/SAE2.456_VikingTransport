@@ -8,28 +8,30 @@
 </head>
 
 <body>
-    <form action="horaires_ligne" method="post">
+    <form action="horaires_ligne.php" method="post">
         <select name="menuHoraire" id="menuHoraire">
             <option value="">-- Selectionner une ligne</option>
             <option value="1A">1A</option>
             <option value="1B">1B</option>
-            <option value="21">2B</option>
             <option value="2A">2A</option>
+            <option value="2B">2B</option>
         </select>
+        <input type="submit" value="submit">
     </form>
     <?php
 
     include "pdo_agile.php";
-
-    if (isset($_POST['menuHoraire'])) {
+    if (isset($_POST['menuHoraire']) && $_POST['menuHoraire'] != "") {
         $lig_num = $_POST['menuHoraire'];
-
-        $sql = "select to_char(noe_heure_passage, 'hh:mi') from vik_noeud where $lig_num = '1A' order by to_char(noe_heure_passage, 'hh:mi:ss')";
+        $sql = "select to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where lig_num = '$lig_num' order by to_char(noe_heure_passage, 'hh:mi')";
         $cur = preparerRequetePDO($conn, $sql);
-        $res = majDonneesPrepareesPDO($cur);
         $ligne = $cur->fetch(PDO::FETCH_ASSOC);
-        while ($ligne != false) {
-            echo $ligne['id_ligne'] . " " . $ligne['id_arret'] . " " . $ligne['heure'] . "<br>";
+        $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+        LireDonneesPDOPreparee()
+        echo "aaaa";
+        echo $ligne[0]["HORAIRE"];
+        while($ligne != false){
+            echo "<p>" . $ligne[0]["HORAIRE"] . "</p>";
             $ligne = $cur->fetch(PDO::FETCH_ASSOC);
         }
         $cur->closeCursor();
