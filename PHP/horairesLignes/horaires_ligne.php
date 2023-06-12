@@ -12,10 +12,10 @@
 
     include "pdo_agile.php";
     if (isset($_GET['ligne']) && $_GET['ligne'] != "") {
+        echo "<a href='../../index.php'>Retour à l'accueil</a>";
         $sql = "select lig_num from vik_ligne where lig_num = '" . $_GET['ligne'] . "'";
         if (LireDonneesPDO1($conn, $sql, $tab) == 0) {
             echo "<h1>La ligne " . $_GET['ligne'] . " n'existe pas</h1>";
-            echo "<a href='../index.php'>Retour à l'accueil</a>";
             exit();
         }
 
