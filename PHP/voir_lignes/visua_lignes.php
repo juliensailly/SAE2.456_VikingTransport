@@ -16,7 +16,7 @@ function lireLignes()
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term
                     where lig_num like '%A%'";
-    // echo sqlLigParA;
+                    
     $sqlLigParB = "select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term

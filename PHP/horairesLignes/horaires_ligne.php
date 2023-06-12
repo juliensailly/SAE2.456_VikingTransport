@@ -24,8 +24,34 @@
     $conn = ouvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
     setlocale(LC_CTYPE, 'fr_FR');
 
+    echo "<a href='../../index.php'>Retour à l'accueil</a>";
+
+    // Création du menu déroulant
+    echo "<form method=\"get\">
+        <select name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">
+            <option value=\"\">Choisir une ligne</option>";
+
+
+    $erreur = false;
+    $sqlLig = "select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
+    join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
+    join  vik_commune b on b.com_code_insee=l.com_code_insee_term
+    order by to_number(rtrim(trim(lig_num),'AB'))";
+
+    $nbLignes = LireDonneesPDO1($conn, $sqlLig, $tab);
+    if ($nbLignes == 0) {
+        $erreur = true;
+    }
+    if (!$erreur) {
+        for ($i = 0; $i < $nbLignes; $i++) {
+            echo "<option value='horaires_ligne.php?ligne=" . $tab[$i]['LIG_NUM'] . "'>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
+        }
+    }
+
+    echo "</select> </form>";
+
+    // Affichage des horaires de la ligne choisie
     if (isset($_GET['ligne']) && $_GET['ligne'] != "") {
-        echo "<a href='../../index.php'>Retour à l'accueil</a>";
         $sql = "select lig_num from vik_ligne where lig_num = '" . $_GET['ligne'] . "'";
         if (LireDonneesPDO1($conn, $sql, $tab) == 0) {
             echo "<h1>La ligne " . $_GET['ligne'] . " n'existe pas</h1>";
@@ -120,8 +146,6 @@
         echo "<td/> </tr>";
         echo "</table>";
         $cur->closeCursor();
-    } else {
-        echo "Veuillez sélectionner une ligne";
     }
     ?>
 </body>
