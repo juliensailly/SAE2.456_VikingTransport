@@ -8,23 +8,20 @@
 </head>
 
 <body>
-    <form action="horaires_ligne.php" method="post">
-        <select name="menuHoraire" id="menuHoraire">
-            <option value="">-- Selectionner une ligne</option>
-            <option value="1A">1A</option>
-            <option value="1B">1B</option>
-            <option value="2A">2A</option>
-            <option value="2B">2B</option>
-        </select>
-        <input type="submit" value="submit">
-    </form>
     <?php
 
     include "pdo_agile.php";
-    if (isset($_POST['menuHoraire']) && $_POST['menuHoraire'] != "") {
-        echo "<h1>Horaires de la ligne " . $_POST['menuHoraire'] . " :</h1>";
+    if (isset($_GET['ligne']) && $_GET['ligne'] != "") {
+        $sql = "select lig_num from vik_ligne where lig_num = '" . $_GET['ligne'] . "'";
+        if (LireDonneesPDO1($conn, $sql, $tab) == 0) {
+            echo "<h1>La ligne " . $_GET['ligne'] . " n'existe pas</h1>";
+            echo "<a href='../index.php'>Retour à l'accueil</a>";
+            exit();
+        }
 
-        $lig_num = $_POST['menuHoraire'];
+        echo "<h1>Horaires de la ligne " . $_GET['ligne'] . " :</h1>";
+
+        $lig_num = $_GET['ligne'];
         $sql = "select to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where lig_num = '$lig_num' order by to_char(noe_heure_passage, 'hh:mi')";
         $cur = preparerRequetePDO($conn, $sql);
         $ligne = $cur->fetch(PDO::FETCH_ASSOC);
