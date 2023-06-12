@@ -45,7 +45,8 @@
         LireDonneesPDOPreparee($cur, $ligne);
         echo "<table> <tr> <th>Communes desservies</th> <th colspan=100%>Horaires</th> </tr>";
         for($i = 0; $i < $nbLignes; $i++) {
-            $sql = "SELECT to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where com_nom = '" . $ligne[$i]["COM_NOM"] . "') and lig_num = '$lig_num' order by to_char(noe_heure_passage, 'hh:mi')";
+            $sql = "SELECT to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where com_code_insee = (select com_code_insee from vik_commune where upper(com_nom) = '" . strtoupper($ligne[$i]["COM_NOM"]) . "') and lig_num = '$lig_num' order by horaire";
+            echo $i."→".$sql;
             $cur = preparerRequetePDO($conn, $sql);
             $com = $cur->fetch(PDO::FETCH_ASSOC);
             $nbLignesCom = LireDonneesPDO1($conn, $sql, $tab);

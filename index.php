@@ -12,6 +12,7 @@
 <body>
     <form method="get">
         <select name="menuHoraire" id="menuHoraire" onchange="location = this.value;">
+            <option value="">Choisir une ligne</option>
             <?php
                 include_once "PHP/voir_lignes/visua_lignes.php";
                 lireLignes();

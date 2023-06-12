@@ -19,7 +19,13 @@
 
     echo "<h2>Lignes les plus utilisées :</h2>";
     $sql = "SELECT lig_num, count(*) as nb FROM vik_correspondance GROUP BY lig_num ORDER BY nb DESC";
-    
+    $cur = preparerRequetePDO($conn, $sql);
+    $ligne = $cur->fetch(PDO::FETCH_ASSOC);
+    $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+    LireDonneesPDOPreparee($cur, $ligne);
+    foreach ($tab as $ligne) {
+        echo "<p>La ligne n°" . $ligne['lig_num'] . " a été utilisée " . $ligne['nb'] . " fois.</p>";
+    }
     ?>
 </body>
 
