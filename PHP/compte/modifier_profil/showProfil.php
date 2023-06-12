@@ -15,6 +15,8 @@
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
         session_start();
         $email = $_SESSION['email'];
+
+
         $sql = "select cli_nom, cli_prenom, cli_courriel, cli_date_naiss, cli_nb_points_ec, cli_nb_points_tot from vik_client where cli_courriel = '$email'";
         $req = LireDonneesPDO2($conn, $sql, $tab);
 
@@ -30,6 +32,18 @@
         echo "<p> Date de naissance : $datenaiss </p>";
         echo "<p> Nb points : $nbpts</p>";
         echo "<p> Nb points totaux : $nbptstot</p>";
+
+        $sql = "select cli_num from vik_client where cli_courriel = '$email'";
+        $req = LireDonneesPDO2($conn, $sql, $tab);
+        $num = $tab[0]['CLI_NUM'];
+
+        echo "<h2>Trajet</h2>";
+
+        $sql = "select ";
+        $req = LireDonneesPDO2($conn, $sql, $tab);
+        for($i = 0; $i < count($tab); $i++){
+            echo "<p> $tab[$i][''] </p>";
+        }
 
         echo "<input type='button' value='Modifier' onclick='location.href=\"modifier_profil.php\"'>"
     ?>
