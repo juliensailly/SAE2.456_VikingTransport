@@ -15,7 +15,9 @@
       <li><a href="PHP/compte/connexion/formulaire.html">CONNEXION</a></li>
       <li><a href="PHP/compte/inscription/formulaire.html">INSCRIPTION</a></li>
       <li><a href="PHP/horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+      <li><a href="PHP/compte/modifier_profil/showProfil.php">MODIFIER PROFIL</a></li>
       <li><a href="PHP/statistiques/statistiques.php">STATISTIQUES</a></li>
+      <li><a href="PHP/reservation_NInscrit_ligne_unique/index.php">RESERVER</a></li>
       <li><a href="PHP/choix_manuel/trajet.php">CHOISIR MANUELLEMENT</a></li>
     </ul>
   </nav>
