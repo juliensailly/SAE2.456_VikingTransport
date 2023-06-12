@@ -1,8 +1,8 @@
 ﻿<?php
 // E.Porcq  pdo_oracle.php  11/10/2016
 
-	$db_username = "agile1";
-	$db_password = "agile1";
+	$db_username = "agile_1";
+	$db_password = "agile_1";
 	//$db = "oci:dbname=info;charset=AL32UTF8"; // fonctionne si tnsname.ora est complet (base UTF8)
 	//$db = "oci:dbname=info;charset=WE8ISO8859P15"; // fonctionne si tnsname.ora est complet
 	 //$db = "'oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8'; ; // fonctionne si tnsname.ora est complet (base UTF8)
