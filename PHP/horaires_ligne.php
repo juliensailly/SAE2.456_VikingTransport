@@ -27,12 +27,12 @@
         $cur = preparerRequetePDO($conn, $sql);
         $ligne = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-        echo LireDonneesPDOPreparee($cur, $tab);
-        echo $ligne[0]["HORAIRE"];
-        while($ligne != false){
-            echo "<p>" . $ligne[0]["HORAIRE"] . "</p>";
-            $ligne = $cur->fetch(PDO::FETCH_ASSOC);
+        echo LireDonneesPDOPreparee($cur, $ligne);
+        $i = 0;
+        for($i = 0; $i < $nbLignes; $i++){
+            echo "<p>" . $ligne[$i]["HORAIRE"] . "</p>";
         }
+       
         $cur->closeCursor();
         $conn = null;
     } else {
