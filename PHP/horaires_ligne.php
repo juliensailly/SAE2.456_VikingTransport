@@ -27,8 +27,7 @@
         $cur = preparerRequetePDO($conn, $sql);
         $ligne = $cur->fetch(PDO::FETCH_ASSOC);
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-        LireDonneesPDOPreparee()
-        echo "aaaa";
+        echo LireDonneesPDOPreparee($cur, $tab);
         echo $ligne[0]["HORAIRE"];
         while($ligne != false){
             echo "<p>" . $ligne[0]["HORAIRE"] . "</p>";
