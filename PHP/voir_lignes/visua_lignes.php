@@ -12,7 +12,7 @@
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term
                     where lig_num like '%A%'";
-        echo sqlLigParA;
+        // echo sqlLigParA;
         $sqlLigParB ="select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
                     join  vik_commune c on c.com_code_insee=l.com_code_insee_debu 
                     join  vik_commune b on b.com_code_insee=l.com_code_insee_term
@@ -27,10 +27,10 @@
             $erreur=true;      
         }
         if(!$erreur){
-            for($i=0; $i<$nbLignes; $i++){
-                echo "<option value='option$i'>",$tabA[$i]["LIG_NUM"]," ", $tabA[$i]["DEPART"]," - ",$tabA[$i]["ARRIVEE"],"</option>";
-                $y= i+1;
-                echo "<option value='option$y'>",$tabB[$i]["LIG_NUM"]," ", $tabB[$i]["DEPART"]," - ",$tabB[$i]["ARRIVEE"],"</option>";
+            for($i=0; $i<$nbLignes; $i++) {
+                echo "<option value='PHP/horairesLignes/horaires_ligne.php?ligne=".$tabA[$i]['LIG_NUM']."'>".$tabA[$i]["LIG_NUM"]." - ".$tabA[$i]['DEPART']." → ".$tabA[$i]['ARRIVEE']."</option>";
+                $y= $i+1;
+                echo "<option value='PHP/horairesLignes/horaires_ligne.php?ligne=".$tabB[$i]['LIG_NUM']."'>".$tabB[$i]["LIG_NUM"]." - ".$tabB[$i]['DEPART']." → ".$tabB[$i]['ARRIVEE']."</option>";
             }
         }
     }
