@@ -1,33 +1,37 @@
 <?php
-// Code PHP pour traiter le formulaire de modification de profil
+include_once "pdo_agile.php";
 
-// Vérifier si le formulaire de modification a été soumis
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Récupérer les valeurs du formulaire et effectuer les opérations de mise à jour du profil
-    // ...
+// Récupération des paramètres de l'URL
+$nom = $_GET["nom"];
+$prenom = $_GET["prenom"];
 
-    // Rediriger vers la page de profil après la sauvegarde
-    header("Location: profil.php");
-    exit();
+// Vérification si les paramètres sont présents
+if ($nom && $prenom) {
+    // Appel de la fonction pour récupérer les données du compte
+    $compte = visualiserCompte($nom, $prenom);
+
+    // Vérification si le compte existe
+    if ($compte) {
+        // Affichage des informations du compte
+        echo "<h1>Profil Utilisateur</h1>";
+        echo "<p>Nom: " . $compte["cli_nom"] . "</p>";
+        echo "<p>Prénom: " . $compte["cli_prenom"] . "</p>";
+        echo "<p>Ville: " . $compte["cli_ville"] . "</p>";
+
+        // Formulaire pour modifier les informations du compte
+        echo "<h2>Modifier le profil</h2>";
+        echo "<form method='POST' action='modifier_profil.php'>";
+        echo "<input type='hidden' name='nom' value='" . $compte["cli_nom"] . "'>";
+        echo "<input type='hidden' name='prenom' value='" . $compte["cli_prenom"] . "'>";
+        echo "<label for='ville'>Ville:</label>";
+        echo "<input type='text' name='ville' id='ville' value='" . $compte["cli_ville"] . "' required>";
+        echo "<br><br>";
+        echo "<button type='submit'>Enregistrer</button>";
+        echo "</form>";
+    } else {
+        echo "Utilisateur non trouvé";
+    }
+} else {
+    echo "Paramètres manquants";
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Modifier le profil</title>
-    <link rel="stylesheet" href="CSS/style.css">
-</head>
-<body>
-    <div class="button-wrapper">
-        <button onclick="openModifierProfil()">Modifier le profil</button>
-    </div>
-
-    <script>
-        function openModifierProfil() {
-            window.open("modifier_profil.php", "_blank");
-        }
-    </script>
-</body>
-</html>
-
