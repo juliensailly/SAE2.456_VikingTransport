@@ -10,15 +10,29 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
         $datenaiss = $_POST["datenaiss"];
-        include_once 'PHP\pdo_agile.php';
+        include '../../pdo_agile.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-        $sql = "INSERT INTO vik_client (CLI_NOM, CLI_PRENOM, CLI_COURRIEL, CLI_PASSWORD, CLI_DATENAISS) VALUES ('$nom', '$prenom', '$email', '$password', '$datenaiss')";
+
+        $sql = "SELECT nvl(MAX(CLI_NUM), 0) as maxi FROM vik_client";
+        $max = LireDonneesPDO2($conn,$sql,$tab);
+        $nb = $tab[0]["MAXI"] + 1;
+
+        $date_good = "to_date('$datenaiss', 'yyyy/mm/dd')";
+
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        
+        $sql = "INSERT INTO vik_client (CLI_NUM, CLI_NOM, CLI_PRENOM, CLI_COURRIEL, CLI_PASSWORD, CLI_DATE_NAISS) 
+            VALUES ('$nb', '$nom', '$prenom', '$email', '$password', $date_good)";
         $nbLignes = majDonneesPDO($conn,$sql);
+        
+
         if($nbLignes == 0)
             echo "erreur";
         else{
-            echo "Inscription réussie";
+            echo "Votre compte a bien été créé";
         }
+
+
     }
 
     function checkIfExist($tab){
