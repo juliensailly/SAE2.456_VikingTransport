@@ -32,7 +32,9 @@
             $cur = preparerRequetePDO($conn, $sql);
             $com = $cur->fetch(PDO::FETCH_ASSOC);
             LireDonneesPDOPreparee($cur, $com);
-            echo "<p>" . $ligne[$i]["HORAIRE"] . " " .$com[0]["COM_NOM"] . "</p>";
+            if (isset($com[0]["COM_NOM"])) {
+                echo "<p>" . $ligne[$i]["HORAIRE"] . " " .$com[0]["COM_NOM"] . "</p>";
+            }
         }
        
 
