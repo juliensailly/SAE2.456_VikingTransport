@@ -26,7 +26,7 @@
 
             $date_good = "to_date('$datenaiss', 'yyyy/mm/dd')";
 
-            $password = password_hash($password, PASSWORD_DEFAULT);
+            $password = password_hash($password, CRYPT_SHA256);
             
             $sql = "INSERT INTO vik_client (CLI_NUM, CLI_NOM, CLI_PRENOM, CLI_COURRIEL, CLI_PASSWORD, CLI_DATE_NAISS) 
                 VALUES ('$nb', '$nom', '$prenom', '$email', '$password', $date_good)";
