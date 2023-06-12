@@ -1,15 +1,15 @@
 <?php
-$db_usernameOracle = "agile_1";
-$db_passwordOracle = "agile_1";
-$dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
 
-$conn = ouvrirConnexionPDO($db, $db_username, $db_password);
 
 function lireLignes()
 {
+    $db_usernameOracle = "agile_1";
+    $db_passwordOracle = "agile_1";
+    $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
+
     $cheminParent = dirname(__DIR__);
     include_once $cheminParent . '/pdo_agile.php';
-    $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
+    $conn = ouvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
 
     $erreur = false;
     $sqlLigParA = "select lig_num,c.com_nom as depart ,b.com_nom as arrivee from vik_ligne l
