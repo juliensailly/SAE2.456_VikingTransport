@@ -24,7 +24,6 @@
             echo "Mot de passe incorrect";
             echo "<br>";
             echo "<a href='formulaire.html'>Retour</a>";
-        }
     }
 
 

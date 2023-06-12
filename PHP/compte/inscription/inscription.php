@@ -28,17 +28,22 @@
 
             $date_good = "to_date('$datenaiss', 'yyyy/mm/dd')";
 
+
             $password = hashPassword($_POST["password"]);
+
             
             $sql = "INSERT INTO vik_client (CLI_NUM, CLI_NOM, CLI_PRENOM, CLI_COURRIEL, CLI_PASSWORD, CLI_DATE_NAISS) 
                 VALUES ('$nb', '$nom', '$prenom', '$email', '$password', $date_good)";
             $nbLignes = majDonneesPDO($conn,$sql);
+
 
             if($nbLignes == 0){
                 echo "erreur";
                 echo "<br>";
                 echo "<a href='formulaire.html'>Retour</a>";
             }else{
+
+
                 echo "Votre compte a bien été créé";
             }
         }
