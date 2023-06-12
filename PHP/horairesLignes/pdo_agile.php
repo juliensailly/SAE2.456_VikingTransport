@@ -1,6 +1,17 @@
 ﻿<?php
 // E.Porcq  pdo_oracle.php  11/10/2016
 
+	$db_username = "agile_1";
+	$db_password = "agile_1";
+	//$db = "oci:dbname=info;charset=AL32UTF8"; // fonctionne si tnsname.ora est complet (base UTF8)
+	//$db = "oci:dbname=info;charset=WE8ISO8859P15"; // fonctionne si tnsname.ora est complet
+	 //$db = "'oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8'; ; // fonctionne si tnsname.ora est complet (base UTF8)
+	$db = fabriquerChaineConnexPDO(); // plus général 
+
+	$conn = ouvrirConnexionPDO($db,$db_username,$db_password);
+
+
+//---------------------------------------------------------------------------------------------
 function OuvrirConnexionPDO($db,$db_username,$db_password)
 {
 	try
@@ -67,7 +78,6 @@ function LireDonneesPDO2($conn,$sql,&$tab) // requêtes select non préparées
 	$i=0;
 	foreach  ($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
 		$tab[$i++] = $ligne;
-		echo $i;
 	$nbLignes = $i;
 	return $nbLignes;
 }
@@ -113,10 +123,4 @@ function fabriquerChaineConnexPDO()
 	return $db;
 }
 
-function afficherTab($obj)
-	{
-		echo "<PRE>";
-		print_r($obj);
-		echo "</PRE>";
-	}
  ?>
