@@ -1,16 +1,15 @@
 ﻿<?php
 // E.Porcq  pdo_oracle.php  11/10/2016
 
-/*  Exemple
-	$db_username = "XXX";
-	$db_password = "XXX";
+	$db_username = "agile1";
+	$db_password = "agile1";
 	//$db = "oci:dbname=info;charset=AL32UTF8"; // fonctionne si tnsname.ora est complet (base UTF8)
 	//$db = "oci:dbname=info;charset=WE8ISO8859P15"; // fonctionne si tnsname.ora est complet
-	// $db = "'oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8'; ; // fonctionne si tnsname.ora est complet (base UTF8)
-	$db = fabriquerChaineConnex(); // plus général 
+	 //$db = "'oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8'; ; // fonctionne si tnsname.ora est complet (base UTF8)
+	$db = fabriquerChaineConnexPDO(); // plus général 
 
-	$conn = ConnecterPDO($db,$db_username,$db_password);
-*/
+	$conn = ouvrirConnexionPDO($db,$db_username,$db_password);
+
 
 //---------------------------------------------------------------------------------------------
 function OuvrirConnexionPDO($db,$db_username,$db_password)
