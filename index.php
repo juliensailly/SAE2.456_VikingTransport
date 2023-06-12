@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <?php
 
-include 'reservation_Ninscrit_ligne_unique.php';
-include 'visua_lignes.php';
+include 'Reservation_table.php';
+//include 'visua_lignes.php';
 ?>
 <html lang="fr">
 <head>
@@ -22,23 +22,20 @@ include 'visua_lignes.php';
         </select>
         <fieldset>
             <legend>Choisir un arrêt de départ :</legend>
-            <div>
-                <input type="radio" id="nom" value="Name">
-                <label for="nom">Test</label> 
-            </div>
+            <?php
+            TableDepart();
+            ?>
         </fieldset>
         <fieldset>
             <legend>Choisir un arrêt d'arrivée :</legend>
-            
+            <?php
+        TableArriver();
+        ?>
         </fieldset>
         
         <button type="button">Valider</button>
         <button type="button">Annuler</button>
-        <select>
-            <?php
-        TrajetinterLigne();
-        ?>
-            </select>
+        
     </body>
     
 </html>
