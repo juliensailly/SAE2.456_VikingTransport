@@ -22,6 +22,8 @@
 
     include "pdo_agile.php";
     if (isset($_POST['menuHoraire']) && $_POST['menuHoraire'] != "") {
+        echo "<h1>Horaires de la ligne " . $_POST['menuHoraire'] . " :</h1>";
+
         $lig_num = $_POST['menuHoraire'];
         $sql = "select to_char(noe_heure_passage, 'hh:mi') as horaire from vik_noeud where lig_num = '$lig_num' order by to_char(noe_heure_passage, 'hh:mi')";
         $cur = preparerRequetePDO($conn, $sql);
@@ -30,19 +32,18 @@
         LireDonneesPDOPreparee($cur, $ligne);
         $i = 0;
         for($i = 0; $i < $nbLignes; $i++){
-            $sql = "";
+            $sql = "SELECT com_nom FROM vik_commune WHERE com_code_insee = (SELECT com_code_insee FROM vik_noeud WHERE to_char(noe_heure_passage, 'hh:mi') = '" . $ligne[$i]["HORAIRE"] . "' and lig_num = '$lig_num')";
             $cur = preparerRequetePDO($conn, $sql);
             $com = $cur->fetch(PDO::FETCH_ASSOC);
             LireDonneesPDOPreparee($cur, $com);
-            echo "<p>" . $ligne[$i]["HORAIRE"] . " " .$com[$i]["COM_NOM"] . "</p>";
+            echo "<p>" . $ligne[$i]["HORAIRE"] . " " .$com[0]["COM_NOM"] . "</p>";
         }
        
         $cur->closeCursor();
         $conn = null;
     } else {
-        echo "Erreur, pas de ligne sélectionnée";
+        echo "Veuillez sélectionner une ligne";
     }
     ?>
 </body>
-
 </html>
