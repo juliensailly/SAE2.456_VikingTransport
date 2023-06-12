@@ -18,7 +18,11 @@
         if(password_verify($password, $tab[0]['CLI_PASSWORD'])){
             session_start();
             $_SESSION['email'] = $email;
-            echo "<a href='../modifier_profil/showProfil.php'>Retour</a>";
+            echo "<a href='../modifier_profil/showProfil.php'>Informations</a>";
+
+            $sql = "update vik_client set cli_date_connec = sysdate where cli_courriel = '$email'";
+            $req = majDonneesPDO($conn, $sql);
+
             echo "Connexion réussie";
         }else{
             echo "Mot de passe incorrect";
