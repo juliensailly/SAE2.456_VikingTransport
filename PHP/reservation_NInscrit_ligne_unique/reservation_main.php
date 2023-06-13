@@ -9,6 +9,7 @@
     <title>Page d'accueil</title>
 </head>
     <body>
+        <div class="container">
         <h1>Réservation de voyage</h1>
         <h3>Choisir une ligne</h3>
         <form action="reservation_main.php" method="post">
@@ -125,9 +126,9 @@
 
 
                     $sql = "select tar_valeur from vik_tarif where tar_num_tranche = ".$tab[0]["TAR_NUM_TRANCHE"];
-                    $nb = LireDonneesPDO2($conn, $sql, $tab2);
+                    $nb = LireDonneesPDO2($conn, $sql, $tab5);
 
-                    $sql = "insert into vik_reservation values ($num, $nb_res, ".$tab[0]["TAR_NUM_TRANCHE"].", sysdate, 0, ".$tab2[0]["TAR_VALEUR"].")";
+                    $sql = "insert into vik_reservation values ($num, $nb_res, ".$tab[0]["TAR_NUM_TRANCHE"].", sysdate, 0, ".$tab5[0]["TAR_VALEUR"].")";
                     $val = majDonneesPDO($conn, $sql);
 
                     $sql = "select com_code_insee from vik_commune where com_nom = '$dep'";
@@ -146,13 +147,13 @@
                     $req = majDonneesPDO($conn, $sql);
                     $conn = null;
                     echo "<h4>Votre trajet est bien enregistré, votre numéro de commande est : $nb_res 🚍🚌</h4>";
+                    echo "<h4>Vous avez parcouru $sum km, le prix de votre trajet est de ".$tab5[0]["TAR_VALEUR"]."€</h4>";
+                    echo "<h4>$dep -----------> $arrive</h4>";
                 }
-            ?>
-            
-
+                ?>
+        </div>
             
         </form>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
     
 </html>
