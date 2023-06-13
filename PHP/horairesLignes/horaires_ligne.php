@@ -30,7 +30,7 @@
 
     // Création du menu déroulant
     echo "<form method=\"get\">
-        <select name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">
+        <select multiple name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">
             <option value=\"\">Choisir une ligne</option>";
 
 
