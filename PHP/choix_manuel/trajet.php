@@ -90,9 +90,9 @@ session_start();
             $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','" . $cli_num . "','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','" . number_format($sum, 1, ",", " ") . "',to_date('" . $_GET['heure'] . ":00','hh24:mi:ss'))";
             $nbLignes = majDonneesPDO($conn, $sql);
             if ($nbLignes == 0) {
-                echo "<h1>Erreur lors de l'insertion de la correspondance</h1>";
+                echo "<h3>Vous devez modifier au moins une ville</h3>";
             } else {
-                echo "<h1>Correspondance ajoutée avec succès</h1>";
+                echo "<h3>Correspondance ajoutée avec succès</h3>";
             }
         }
     }
@@ -155,10 +155,23 @@ session_start();
         }
 
         if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin']) && isset($_GET['heure'])) {
-            echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</button>";
+            echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</a>";
         }
 
-        $sql = "s";
+        // Visualisation du trajet
+        $sql = "select lig_num, com_code_insee_depart, com_code_insee_arrivee, corr_distance, corr_heure from vik_correspondance where res_num = '".$_GET['numRes']."'";
+        $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+        if ($nbLignes > 0) {
+            echo "<h3>Trajets de la réservation</h3>";
+            for ($i = 0; $i < $nbLignes; $i++){
+                $sql = "select com_nom from vik_commune where com_code_insee = '".$tab[$i]['COM_CODE_INSEE_DEPART']."'";
+                $nbLignes = LireDonneesPDO1($conn, $sql, $tab2);
+                $sql = "select com_nom from vik_commune where com_code_insee = '".$tab[$i]['COM_CODE_INSEE_ARRIVEE']."'";
+                $nbLignes = LireDonneesPDO1($conn, $sql, $tab3);
+                echo "<p>De ".$tab2[0]['COM_NOM']." à ".$tab3[0]['COM_NOM']." sur la ligne ".$tab[$i]['LIG_NUM']." à ".$tab[$i]['CORR_HEURE']." pour ".$tab[$i]['CORR_DISTANCE']." km</p>";
+            }
+        }
+        
 
         
         
