@@ -23,9 +23,9 @@ function afficherVilleTerm($ligne, $ville_debu)
     if ($nbLigne == 0)
         $erreur = true;
     if (!$erreur) {
-        echo "<option value=''>Veuillez choisir la ville d'arrivée</option>";
+        echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "'>Veuillez choisir la ville d'arrivée</option>";
 
-        if ($_GET['villedeb'] == $tab[0]['DEPART']) {
+        if ($tab[0]['DEPART'] == $_GET['villedeb']) {
             $bool = true;
         } else {
             $bool = false;

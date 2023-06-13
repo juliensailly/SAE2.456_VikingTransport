@@ -1,13 +1,14 @@
 <?php
-    function afficherVilleDebut($ligne) {
-        include_once '../pdo_agile.php';
-        include '../param_connexion_etu.php';
+function afficherVilleDebut($ligne)
+{
+    include_once '../pdo_agile.php';
+    include '../param_connexion_etu.php';
 
-        $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-        $erreur = false;
+    $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
+    $erreur = false;
 
 
-        $sql = "select depart, arrivee, noe_distance_prochain from 
+    $sql = "select depart, arrivee, noe_distance_prochain from 
         (
             select com1.com_nom as depart, com2.com_nom as arrivee, noe_distance_prochain, min(noe_heure_passage) as min_horaire
             from vik_noeud noe
@@ -17,19 +18,19 @@
             group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
         )
         order by min_horaire";
-        $nbLigne =  LireDonneesPDO1($conn, $sql, $tab);
-        
-        if($nbLigne == 0)
-            $erreur = true;
-        if(!$erreur) {
-            echo "<option value=''>Veuillez choisir la ville de départ</option>";
-            for($i = 0; $i < $nbLigne; $i++) {
-                if ($_GET['villedeb'] == $tab[$i]['DEPART']) {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "' selected>".$tab[$i]["DEPART"]."</option>";
-                } else {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>".$tab[$i]["DEPART"]."</option>";
-                }
+    $nbLigne = LireDonneesPDO1($conn, $sql, $tab);
+
+    if ($nbLigne == 0)
+        $erreur = true;
+    if (!$erreur) {
+        echo "<option value='./trajet.php?ligne=" . $ligne . "'>Veuillez choisir la ville de départ</option>";
+        for ($i = 0; $i < $nbLigne; $i++) {
+            if ($_GET['villedeb'] == $tab[$i]['DEPART']) {
+                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "' selected>" . $tab[$i]["DEPART"] . "</option>";
+            } else {
+                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>" . $tab[$i]["DEPART"] . "</option>";
             }
         }
     }
+}
 ?>
