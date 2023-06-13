@@ -11,11 +11,25 @@
 </head>
 
 <body>
+    <a href="../../index.php">Retour à l'accueil</a>
     <form method="get">
         <select name="menuLigne" id="menuLigne" onchange="location = this.value;">
             <?php
             include_once '../pdo_agile.php';
-            include_once '../param_connexion_etu.php';
+            include '../param_connexion_etu.php';
+
+            if (isset($_GET['submit'])) {
+                if ($_GET['submit'] == '1') {
+                    // A modifier
+                    $_SESSION['numRes'] = 0;
+                    $_SESSION['numCorres'] = 0;
+                    $_SESSION['trajet'][$_SESSION['numRes']][$_SESSION['numCorres']]['ligne'] = $_GET['ligne'];
+                    $_SESSION['trajet'][$_SESSION['numRes']][$_SESSION['numCorres']]['villedeb'] = $_GET['villedeb'];
+                    $_SESSION['trajet'][$_SESSION['numRes']][$_SESSION['numCorres']]['villefin'] = $_GET['villefin'];
+                    $_SESSION['trajet'][$_SESSION['numRes']][$_SESSION['numCorres']]['heure'] = $_GET['heure'];
+                }
+            }
+
             $chemin = '.';
             $input = 'trajet';
             $db_usernameOracle = "agile_1";
@@ -47,7 +61,6 @@
         </select>
     </form>
     <form>
-
             <?php
             include "choix_manuel.php";
             if (isset($_GET['ligne'])) {
@@ -55,14 +68,32 @@
                 afficherVilleDebut($_GET['ligne']);
                 echo "</select> ";
             }
-            ?>
-            <?php
+            
             include "choix_ville_fin.php";
             if (isset($_GET['villedeb']) && isset($_GET['ligne'])) {
                 echo " <select name=\"menuVilleTerm\" id=\"menuVilleTerm\" onchange=\"location = this.value;\">";
                 afficherVilleTerm($_GET['ligne'], $_GET['villedeb']);
                 echo "</select>";
             }
+
+            include "choix_horaire.php";
+            if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin'])) {
+                echo " <select name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">";
+                afficherHoraire($_GET['ligne'], $_GET['villedeb'], $_GET['villefin']);
+                echo "</select>";
+            }
+
+            if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin']) && isset($_GET['heure'])) {
+                echo " <a href=\"./trajet.php?ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</button>";
+            }
+
+            /*if (isset($_SESSION['trajet'][$_SESSION['numRes']])) {
+                for($j = 0; $j < count($_SESSION['trajet'][$_SESSION['numRes']]); $j++) {
+                    echo "<p> Correspondance n°". $j . $_SESSION['trajet'][$_SESSION['numRes']][$j]['ligne'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villedeb'] . " → " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villefin'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['heure'] . "</p>";
+                }
+            }*/
+
+            $conn = null;
             ?>
     </form>
 </body>
