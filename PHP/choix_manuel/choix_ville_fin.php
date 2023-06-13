@@ -24,7 +24,7 @@ function afficherVilleTerm($ligne, $ville_debu)
         $erreur = true;
     if (!$erreur) {
 
-        echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "'>Veuillez choisir la ville d'arrivée</option>";
+        echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "'>Veuillez choisir la ville d'arrivée</option>";
 
         if ($tab[0]['DEPART'] == $_GET['villedeb']) {
             $bool = true;
@@ -35,12 +35,12 @@ function afficherVilleTerm($ligne, $ville_debu)
         for ($i = 0; $i < $nbLigne; $i++) {
             if (isset($_GET['villefin']) && $bool == true) {
                 if ($_GET['villefin'] == $tab[$i]['ARRIVEE']) {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "' selected>" . $tab[$i]["ARRIVEE"] . "</option>";
+                    echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "' selected>" . $tab[$i]["ARRIVEE"] . "</option>";
                 } else {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
+                    echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
                 }
             } else if ($bool == true) {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
+                echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
             }
 
             if ($tab[$i]["ARRIVEE"] == $ville_debu) {
