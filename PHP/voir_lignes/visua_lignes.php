@@ -33,6 +33,7 @@
                 echo "<option value='$chemin/$input.php?ligne=".$tabB[$i]['LIG_NUM']."'>".$tabB[$i]["LIG_NUM"]." - ".$tabB[$i]['DEPART']." → ".$tabB[$i]['ARRIVEE']."</option>";
             }
         }
+        $conn = null;
     }
 
     

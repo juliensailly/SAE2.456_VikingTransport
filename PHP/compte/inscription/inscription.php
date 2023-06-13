@@ -41,10 +41,10 @@
                 echo "erreur";
                 echo "<br>";
                 echo "<a href='formulaire.html'>Retour</a>";
+                $conn = null;
             }else{
-
-
                 echo "Votre compte a bien été créé";
+                $conn = null;
             }
         }
 

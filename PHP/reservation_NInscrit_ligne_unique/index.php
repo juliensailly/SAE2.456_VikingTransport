@@ -17,7 +17,6 @@
                 <?php
                     include '../voir_lignes/visua_lignes.php';
                     lireLignes('', 'index');
-
                 ?>
             </select>
             <input type="submit" value="Valider">
