@@ -30,11 +30,14 @@ session_start();
         if (isset($_SESSION['email'])) {
             $sql = "select cli_num from vik_client where cli_courriel = '" . $_SESSION['email'] . "'";
             $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-        }
-        if ($nbLignes == 0) {
-            $cli_num = 0;
+
+            if ($nbLignes == 0) {
+                $cli_num = 0;
+            } else {
+                $cli_num = $tab[0]['CLI_NUM'];
+            }
         } else {
-            $cli_num = $tab[0]['CLI_NUM'];
+            $cli_num = 0;
         }
 
         $sql = "insert into vik_reservation (cli_num, res_num, tar_num_tranche, res_date, res_nb_points, res_prix_tot) values ('" . $cli_num . "', (select max(res_num)+1 from vik_reservation), 1, sysdate, 0, 0)";
@@ -75,14 +78,16 @@ session_start();
             if (isset($_SESSION['email'])) {
                 $sql = "select cli_num from vik_client where cli_courriel = '" . $_SESSION['email'] . "'";
                 $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-            }
-            if ($nbLignes == 0) {
-                $cli_num = 0;
+                if ($nbLignes == 0) {
+                    $cli_num = 0;
+                } else {
+                    $cli_num = $tab[0]['CLI_NUM'];
+                }
             } else {
-                $cli_num = $tab[0]['CLI_NUM'];
+                $cli_num = 0;
             }
 
-            $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','" . $cli_num . "','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','".number_format($sum, 1, ",", " ")."',to_date('" . $_GET['heure'] . ":00','hh24:mi:ss'))";
+            $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','" . $cli_num . "','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','" . number_format($sum, 1, ",", " ") . "',to_date('" . $_GET['heure'] . ":00','hh24:mi:ss'))";
             $nbLignes = majDonneesPDO($conn, $sql);
             if ($nbLignes == 0) {
                 echo "<h1>Erreur lors de l'insertion de la correspondance</h1>";
@@ -153,13 +158,9 @@ session_start();
             echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</button>";
         }
 
-        $sql = "";
+        $sql = "s";
 
-        // if (isset($_SESSION['trajet'][$_SESSION['numRes']])) {
-        //     for ($j = 0; $j < count($_SESSION['trajet'][$_SESSION['numRes']]); $j++) {
-        //         echo "<p> Correspondance n°" . $j . $_SESSION['trajet'][$_SESSION['numRes']][$j]['ligne'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villedeb'] . " → " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villefin'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['heure'] . "</p>";
-        //     }
-        // }
+        
         
         $conn = null;
         ?>
