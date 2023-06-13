@@ -1,4 +1,6 @@
 ﻿<?php
+// E.Porcq  pdo_oracle.php  11/10/2016
+
 function OuvrirConnexionPDO($db,$db_username,$db_password)
 {
 	try
@@ -65,6 +67,7 @@ function LireDonneesPDO2($conn,$sql,&$tab) // requêtes select non préparées
 	$i=0;
 	foreach  ($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
 		$tab[$i++] = $ligne;
+		echo $i;
 	$nbLignes = $i;
 	return $nbLignes;
 }

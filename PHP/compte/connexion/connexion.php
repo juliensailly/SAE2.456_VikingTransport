@@ -18,6 +18,9 @@
         if(password_verify($password, $tab[0]['CLI_PASSWORD'])){
             session_start();
             $_SESSION['email'] = $email;
+            $sql = "select cli_num from vik_client where cli_courriel = '$email'";
+            LireDonneesPDO1($conn,$sql,$tab_num);
+            $_SESSION['num'] = $tab_num;
             echo "<a href='../modifier_profil/showProfil.php'>Informations</a>";
 
             $sql = "update vik_client set cli_date_connec = sysdate where cli_courriel = '$email'";
