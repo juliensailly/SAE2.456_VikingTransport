@@ -79,7 +79,8 @@
             ?>
             
         </fieldset>
-            <input type="submit" value="Annuler">
+        <Button><a href='../../index.php' style="color: black; text-decoration: none;">Retour</a></Button>
+            
             <input type="submit" value="Valider">
             <?php
                 if( $dep != "" && $arrive != ""){
