@@ -7,14 +7,23 @@
         $erreur = false;
 
 
-        $sql = "select distinct com_nom from vik_commune join vik_noeud using(com_code_insee) where lig_num = '" . $ligne ."'";
+        $sql = "select depart, arrivee, noe_distance_prochain from 
+        (
+            select com1.com_nom as depart, com2.com_nom as arrivee, noe_distance_prochain, min(noe_heure_passage) as min_horaire
+            from vik_noeud noe
+            join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
+            join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
+            where lig_num='$ligne'
+            group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
+        )
+        order by min_horaire";
         $nbLigne =  LireDonneesPDO1($conn, $sql, $tab);
         
         if($nbLigne == 0)
             $erreur = true;
         if(!$erreur) {
             for($i = 0; $i < $nbLigne; $i++) {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["COM_NOM"] . "'>".$tab[$i]["COM_NOM"]."</option>";
+                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>".$tab[$i]["DEPART"]."</option>";
             }
         }
     }
