@@ -15,7 +15,7 @@
         <select name="menuLigne" id="menuLigne" onchange="location = this.value;">
             <?php
             include_once '../pdo_agile.php';
-            include_once '../param_connexion_etu.php';
+            include '../param_connexion_etu.php';
             $chemin = '.';
             $input = 'trajet';
             $db_usernameOracle = "agile_1";
@@ -72,6 +72,8 @@
             if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin']) && isset($_GET['heure'])) {
                 echo " <button type=\"submit\">Ajouter la correspondance</button>";
             }
+
+            $conn = null;
             ?>
     </form>
 </body>
