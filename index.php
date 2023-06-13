@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
 <nav>
     <ul>
       <li><a href="PHP/compte/connexion/formulaire.html">CONNEXION</a></li>
