@@ -6,6 +6,7 @@
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
         $erreur = false;
 
+
         $sql = "select distinct com_nom from vik_commune join vik_noeud using(com_code_insee) where lig_num = '" . $ligne ."'";
         $nbLigne =  LireDonneesPDO1($conn, $sql, $tab);
         
@@ -17,7 +18,4 @@
             }
         }
     }
-
-    
-
 ?>

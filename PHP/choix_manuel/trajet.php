@@ -21,6 +21,7 @@
     </form>
     <form method="get" >
         <select name="menuVilleDeb" id="menuVilleDeb" onchange="location = this.value;">
+
             <?php
                 include "choix_manuel.php";
                 if(isset($_GET['ligne']))
@@ -35,6 +36,7 @@
             ?>
         </select>
     </form>   
+
 </body>
 </html>
 
