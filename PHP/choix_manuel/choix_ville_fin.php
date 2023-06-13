@@ -1,10 +1,11 @@
 <?php
 
-function afficherVilleTerm($ligne, $ville_debu) {
+function afficherVilleTerm($ligne, $ville_debu)
+{
     include_once '../pdo_agile.php';
     include '../param_connexion_etu.php';
 
-    $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
+    $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
     $erreur = false;
 
     $sql = "select depart, arrivee, noe_distance_prochain from 
@@ -17,19 +18,32 @@ function afficherVilleTerm($ligne, $ville_debu) {
         group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
     )
     order by min_horaire";
-    $nbLigne =  LireDonneesPDO1($conn, $sql, $tab);
-    
-    if($nbLigne == 0)
+    $nbLigne = LireDonneesPDO1($conn, $sql, $tab);
+
+    if ($nbLigne == 0)
         $erreur = true;
-    if(!$erreur) {
-        $bool = false;
-        for($i = 0; $i < $nbLigne; $i++) {
-            if ($_GET['villefin'] == $tab[$i]['ARRIVEE']) {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=". $tab[$i]['ARRIVEE'] ."' selected>".$tab[$i]["ARRIVEE"]."</option>";
-            } else {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=". $tab[$i]['ARRIVEE'] ."'>".$tab[$i]["ARRIVEE"]."</option>";
+    if (!$erreur) {
+        echo "<option value=''>Veuillez choisir la ville d'arrivée</option>";
+
+        if ($_GET['villedeb'] == $tab[0]['DEPART']) {
+            $bool = true;
+        } else {
+            $bool = false;
+        }
+        
+        for ($i = 0; $i < $nbLigne; $i++) {
+            if (isset($_GET['villefin']) && $bool == true) {
+                if ($_GET['villefin'] == $tab[$i]['ARRIVEE']) {
+                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "' selected>" . $tab[$i]["ARRIVEE"] . "</option>";
+                } else {
+                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
+                }
+            } else if ($bool == true) {
+                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $ville_debu . "&villefin=" . $tab[$i]['ARRIVEE'] . "'>" . $tab[$i]["ARRIVEE"] . "</option>";
             }
-            if ($tab[$i]["DEPART"] == $ville_debu) {
+
+            if ($tab[$i]["ARRIVEE"] == $ville_debu) {
+                echo $tab[$i]["ARRIVEE"] . " == " . $ville_debu;
                 $bool = true;
             }
         }
