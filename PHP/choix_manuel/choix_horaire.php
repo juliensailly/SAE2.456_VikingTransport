@@ -17,16 +17,16 @@ function afficherHoraire($ligne, $villedeb, $villefin)
     if ($nbLigne == 0)
         $erreur = true;
     if (!$erreur) {
-        echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "'>Veuillez choisir l'horaire au départ de " . $villedeb . "</option>";
+        echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "'>Veuillez choisir l'horaire au départ de " . $villedeb . "</option>";
         for ($i = 0; $i < $nbLigne; $i++) {
             if (isset($_GET['heure'])) {
                 if ($_GET['heure'] == $tab[$i]['HORAIRE']) {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "' selected>" . $tab[$i]["HORAIRE"] . "</option>";
+                    echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "' selected>" . $tab[$i]["HORAIRE"] . "</option>";
                 } else {
-                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "'>" . $tab[$i]["HORAIRE"] . "</option>";
+                    echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "'>" . $tab[$i]["HORAIRE"] . "</option>";
                 }
             } else {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "'>" . $tab[$i]["HORAIRE"] . "</option>";
+                echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $tab[$i]["HORAIRE"] . "'>" . $tab[$i]["HORAIRE"] . "</option>";
             }
         }
     }

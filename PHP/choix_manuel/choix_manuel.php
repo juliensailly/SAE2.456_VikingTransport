@@ -23,12 +23,12 @@ function afficherVilleDebut($ligne)
     if ($nbLigne == 0)
         $erreur = true;
     if (!$erreur) {
-        echo "<option value='./trajet.php?ligne=" . $ligne . "'>Veuillez choisir la ville de départ</option>";
+        echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "'>Veuillez choisir la ville de départ</option>";
         for ($i = 0; $i < $nbLigne; $i++) {
             if ($_GET['villedeb'] == $tab[$i]['DEPART']) {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "' selected>" . $tab[$i]["DEPART"] . "</option>";
+                echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "' selected>" . $tab[$i]["DEPART"] . "</option>";
             } else {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>" . $tab[$i]["DEPART"] . "</option>";
+                echo "<option value='./trajet.php?numRes=".$_GET['numRes']."&ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>" . $tab[$i]["DEPART"] . "</option>";
             }
         }
     }

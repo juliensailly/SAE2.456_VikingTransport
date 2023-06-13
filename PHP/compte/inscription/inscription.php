@@ -44,6 +44,8 @@
                 $conn = null;
             }else{
                 echo "Votre compte a bien été créé";
+                echo "<br>";
+                echo "<a href='../../../index.php'>Retour</a>";
                 $conn = null;
             }
         }
@@ -66,7 +68,7 @@
     }
 
     function useRegexEmail($input){
-        $regex = '/^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/';
+        $regex = '/^[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+\.[a-zA-Z0-9_]+$/';
         return preg_match($regex, $input);
     }
 
@@ -80,4 +82,5 @@
     function hashPassword($password){
         return password_hash($password, CRYPT_SHA256);
     }
+    $conn = null;
 ?>
