@@ -3,7 +3,7 @@
     $db_usernameOracle = "agile_1";
     $db_passwordOracle = "agile_1";
     $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
-    $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
+    //$conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
 
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -27,10 +27,12 @@
             $req = majDonneesPDO($conn, $sql);
 
             echo "Connexion réussie";
+            $conn = null;
         }else{
             echo "Mot de passe incorrect";
             echo "<br>";
             echo "<a href='formulaire.html'>Retour</a>";
+            $conn = null;
         }
     }
 

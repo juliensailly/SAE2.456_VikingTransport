@@ -23,6 +23,7 @@ function lireLignes($input,$chemin){
         for ($i = 0; $i < $nbLignes; $i++) {
             echo "<option value='$chemin/$input.php?ligne=" . $tab[$i]['LIG_NUM'] . "'>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
         }
+        $conn = null;
     }
 }
 
