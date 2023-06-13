@@ -8,6 +8,8 @@
 --      Auteur : EricPorcq
 --      Date de dernière modification : 25/3/2023 17:15:53
 -- -----------------------------------------------------------------------------
+commit;
+
 
 DROP TABLE VIK_DEPARTEMENT CASCADE CONSTRAINTS;
 DROP TABLE VIK_TYPE_CLIENT CASCADE CONSTRAINTS;
@@ -19,6 +21,26 @@ DROP TABLE VIK_REDUCTION CASCADE CONSTRAINTS;
 DROP TABLE VIK_RESERVATION CASCADE CONSTRAINTS;
 DROP TABLE VIK_CORRESPONDANCE CASCADE CONSTRAINTS;
 DROP TABLE VIK_NOEUD CASCADE CONSTRAINTS;
+
+SELECT
+    O.OBJECT_NAME,
+    S.SID,
+    S.SERIAL#,
+    P.SPID,
+    S.PROGRAM,
+    SQ.SQL_FULLTEXT,
+    S.LOGON_TIME
+FROM
+    V$LOCKED_OBJECT L,
+    DBA_OBJECTS O,
+    V$SESSION S,
+    V$PROCESS P,
+    V$SQL SQ
+WHERE
+    L.OBJECT_ID = O.OBJECT_ID
+    AND L.SESSION_ID = S.SID
+    AND S.PADDR = P.ADDR
+    AND S.SQL_ADDRESS = SQ.ADDRESS;
 
 CREATE TABLE VIK_DEPARTEMENT
    (
@@ -84,9 +106,11 @@ CREATE TABLE VIK_CLIENT
     CLI_VILLE VARCHAR2(64)  NULL,
     CLI_TELEPHONE VARCHAR2(16)  NULL,
     CLI_COURRIEL VARCHAR2(32)  NULL,
-    CLI_NB_POINTS_EC NUMBER(4)  NULL,
-    CLI_NB_POINTS_TOT NUMBER(6)  NULL,
+    CLI_NB_POINTS_EC NUMBER(4)  DEFAULT 0,
+    CLI_NB_POINTS_TOT NUMBER(6)  DEFAULT 0,
     CLI_DATE_CONNEC date NULL,
+    CLI_PASSWORD varchar2(100),
+    CLI_DATE_NAISS date,
     CONSTRAINT PK_VIK_CLIENT PRIMARY KEY (CLI_NUM)  
    ) ;
 
@@ -5729,7 +5753,6 @@ insert into vik_noeud values ('19B','61169','14174',to_date('18:25:00','hh24:mi:
 insert into vik_noeud values ('19B','14174','14456',to_date('18:48:00','hh24:mi:ss'),'46','59');
 insert into vik_noeud values ('19B','14456','14220',to_date('19:47:00','hh24:mi:ss'),'46','55');
 
-commit;
 
 
 /*
@@ -5748,3 +5771,27 @@ select count(*) from vik_noeud;
 select noe_distance_prochain from vik_noeud;
 */
 -- delete from vik_noeud;
+
+select * from vik_reservation where  cli_num =0 order by res_num desc;
+select * from vik_client;
+select * from vik_type_client;
+select * from vik_tarif;
+
+select depart, arrivee, noe_distance_prochain from 
+(
+    select com1.com_nom as depart, com2.com_nom as arrivee, noe_distance_prochain, min(noe_heure_passage) as min_horaire
+    from vik_noeud noe
+    join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
+    join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
+    where lig_num='1A'
+    group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
+)
+order by min_horaire;
+
+select tar_num_tranche from vik_tarif where 10 between tar_min_dist and tar_max_dist;
+select tar_valeur from vik_tarif where tar_num_tranche = 1;
+select tar_num_tranche from vik_tarif where 203 between tar_min_dist and tar_max_dist;
+
+select tar_valeur from vik_tarif where tar_num_tranche = 12;
+
+select tar_num_tranche from vik_tarif where 114 between tar_min_dist and tar_max_dist;

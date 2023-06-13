@@ -1,10 +1,5 @@
 ﻿<?php
-
-
-	$db_usernameOracle = "agile_1";
-	$db_passwordOracle = "agile_1"; 
-	$dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
-	$conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
+// E.Porcq  pdo_oracle.php  11/10/2016
 
 function OuvrirConnexionPDO($db,$db_username,$db_password)
 {
@@ -72,6 +67,7 @@ function LireDonneesPDO2($conn,$sql,&$tab) // requêtes select non préparées
 	$i=0;
 	foreach  ($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
 		$tab[$i++] = $ligne;
+		echo $i;
 	$nbLignes = $i;
 	return $nbLignes;
 }
