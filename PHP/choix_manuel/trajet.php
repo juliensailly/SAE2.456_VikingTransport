@@ -82,8 +82,7 @@ session_start();
                 $cli_num = $tab[0]['CLI_NUM'];
             }
 
-            $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','" . $cli_num . "','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','$sum',to_date('" . $_GET['heure'] . ":00','hh24:mi:ss'))";
-            echo $sql . "|" . $cli_num . "|";
+            $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','" . $cli_num . "','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','".number_format($sum, 1, ",", " ")."',to_date('" . $_GET['heure'] . ":00','hh24:mi:ss'))";
             $nbLignes = majDonneesPDO($conn, $sql);
             if ($nbLignes == 0) {
                 echo "<h1>Erreur lors de l'insertion de la correspondance</h1>";
