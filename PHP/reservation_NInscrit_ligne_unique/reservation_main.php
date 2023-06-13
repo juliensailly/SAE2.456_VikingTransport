@@ -56,11 +56,12 @@
                     
                     if($nbLigne != 0){
                         for($i=0; $i<$nbLignes; $i++){
-                            echo" <input type='radio' id='nom' name='depp'><label for='nom'>",$tab[$i]["DEPART"],"</label>";
+                            echo" <input type='radio' id='nom' name='depp' onaction=\"refresh();\" ><label for='nom'>",$tab[$i]["DEPART"],"</label>";
+                            
                         }
                     }
                 ?>
-
+                
             </select>
             <input type="submit" value="Valider">
            
@@ -79,8 +80,8 @@
             ?>
             
         </fieldset>
-        <Button><a href='../../index.php' style="color: black; text-decoration: none;">Retour</a></Button>
-            
+        
+            <Button><a href='../../index.php' style="color: black; text-decoration: none;">Retour</a></Button>
             <input type="submit" value="Valider">
             <?php
                 if( $dep != "" && $arrive != ""){
@@ -151,6 +152,7 @@
 
             
         </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </body>
     
 </html>
