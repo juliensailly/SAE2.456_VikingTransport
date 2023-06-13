@@ -21,9 +21,14 @@
         
         if($nbLigne == 0)
             $erreur = true;
-        if(!$erreur) {
+        if(!$erreur && isset($_GET['villedeb']) && $_GET['villedeb'] != "") {
             for($i = 0; $i < $nbLigne; $i++) {
-                echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>".$tab[$i]["DEPART"]."</option>";
+                if ($_GET['villedeb'] == $tab[$i]['DEPART']) {
+                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "' selected>".$tab[$i]["DEPART"]."</option>";
+                } else {
+                    echo "<option value='./trajet.php?ligne=" . $ligne . "&villedeb=" . $tab[$i]["DEPART"] . "'>".$tab[$i]["DEPART"]."</option>";
+                }
+                
             }
         }
     }
