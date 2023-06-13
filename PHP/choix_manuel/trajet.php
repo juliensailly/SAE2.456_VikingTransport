@@ -23,6 +23,7 @@ session_start();
     $input = 'trajet';
     $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
 
+    $cli_num = 0;
     if (isset($_GET['numRes']) && !isset($_GET['ligne'])) {
         if (isset($_SESSION['email'])) {
             $sql = "select cli_num from vik_client where cli_courriel = '" . $_SESSION['email'] . "'";
@@ -58,7 +59,7 @@ session_start();
                 from vik_noeud noe
                 join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
                 join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
-                where lig_num='1A'
+                where lig_num='" . $_GET['ligne'] . "'
                 group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
             )
             order by min_horaire";
@@ -104,7 +105,7 @@ session_start();
     }
 
 
-    echo "<a href=\"../../index.php\">Retour à l'accueil</a> <form method=\"get\"> <select name=\"menuLigne\" id=\"menuLigne\" onchange=\"location = this.value;\">";
+    echo "<a href=\"../../index.php\">Retour à l'accueil</a> <form method=\"get\"> <select multiple name=\"menuLigne\" id=\"menuLigne\" onchange=\"location = this.value;\">";
     echo "<option value='$chemin/$input.php'>Choisir une ligne</option>";
 
     $erreur = false;
@@ -132,27 +133,27 @@ session_start();
         <?php
         include "choix_manuel.php";
         if (isset($_GET['ligne'])) {
-            echo "<select name=\"menuVilleDeb\" id=\"menuVilleDeb\" onchange=\"location = this.value;\">";
+            echo "<select multiple name=\"menuVilleDeb\" id=\"menuVilleDeb\" onchange=\"location = this.value;\">";
             afficherVilleDebut($_GET['ligne']);
             echo "</select> ";
         }
 
         include "choix_ville_fin.php";
         if (isset($_GET['villedeb']) && isset($_GET['ligne'])) {
-            echo " <select name=\"menuVilleTerm\" id=\"menuVilleTerm\" onchange=\"location = this.value;\">";
+            echo " <select multiple name=\"menuVilleTerm\" id=\"menuVilleTerm\" onchange=\"location = this.value;\">";
             afficherVilleTerm($_GET['ligne'], $_GET['villedeb']);
             echo "</select>";
         }
 
         include "choix_horaire.php";
         if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin'])) {
-            echo " <select name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">";
+            echo " <select multiple name=\"menuHoraire\" id=\"menuHoraire\" onchange=\"location = this.value;\">";
             afficherHoraire($_GET['ligne'], $_GET['villedeb'], $_GET['villefin']);
             echo "</select>";
         }
 
         if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin']) && isset($_GET['heure'])) {
-            echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</a>";
+            echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance/Valider</a>";
         }
 
         // Visualisation du trajet
@@ -164,7 +165,7 @@ session_start();
             $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
             $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[0]['COM_CODE_INSEE_ARRIVEE'] . "'";
             $nbLignesB = LireDonneesPDO1($conn, $sql, $tab3);
-            echo $tab2[0]['COM_NOM'] . " (" . $tab[0]['CORR_HEURE'] . ") ---------- " . $tab[0]['LIG_NUM'] . " - " . $tab[0]['CORR_DISTANCE'] . " km" . " ------->  " . $tab3[0]['COM_NOM'] . " ( ";
+            echo $tab2[0]['COM_NOM'] . " (" . $tab[0]['CORR_HEURE'] . ") ---------- " . $tab[0]['LIG_NUM'] . " - " . $tab[0]['CORR_DISTANCE'] . " km" . " ------->  " . $tab3[0]['COM_NOM'];
             for ($i = 1; $i < $nbLignes; $i++) {
                 $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[$i]['COM_CODE_INSEE_DEPART'] . "'";
                 $nbLignesB = LireDonneesPDO1($conn, $sql, $tab4);
@@ -176,6 +177,38 @@ session_start();
                     echo "<br>" . $tab4[0]['COM_NOM'] . " (" . $tab[$i]['CORR_HEURE'] . ") -------- " . $tab[$i]['LIG_NUM'] . " - " . $tab[$i]['CORR_DISTANCE'] . " km ------->  " . $tab5[0]['COM_NOM'];
                 }
                 $tab3[0]['COM_NOM'] = $tab5[0]['COM_NOM'];
+            }
+
+            // Distance totale et prix (mise à jour)
+            $sql = "select sum(corr_distance) as distance_totale from vik_correspondance where res_num = '" . $_GET['numRes'] . "'";
+            $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
+            $distance_totale = $tab2[0]['DISTANCE_TOTALE'];
+            $distance_totale = str_replace(",", ".", $distance_totale);
+
+            $sql = "select tar_valeur from vik_tarif where tar_min_dist <= " . $distance_totale . " and tar_max_dist >= " . $distance_totale;
+            $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
+            $prix_total = 0;
+            if ($nbLignesB == 0) {
+                $prix_total = 90;
+            } else {
+                $prix_total = $tab2[0]['TAR_VALEUR'];
+            }
+
+            echo "<br><br>Distance totale : " . $distance_totale . " km<br>Prix total : " . $prix_total . " €";
+            $sql = "select tar_num_tranche from vik_tarif where $distance_totale between tar_min_dist and tar_max_dist";
+            $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
+            $tranchePrix = 1;
+            if ($nbLignesB == 0) {
+                $tranchePrix = 13;
+            } else {
+                $tranchePrix = $tab2[0]['TAR_NUM_TRANCHE'];
+            }
+            $sql = "update vik_reservation set tar_num_tranche = " . $tranchePrix . ", res_nb_points = round(" . ($distance_totale/10) . "), res_prix_tot = $prix_total where res_num = '" . $_GET['numRes'] . "'";
+            $nbLignesB = majDonneesPDO($conn, $sql);
+            if ($nbLignesB == 1) {
+                echo "<br><br>La réservation a bien été enregistrée !";
+            } else {
+                echo "<br><br>Erreur lors de l'enregistrement de la réservation !";
             }
         }
 
