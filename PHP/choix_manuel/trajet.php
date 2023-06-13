@@ -12,7 +12,6 @@
 
 <body>
     <?php
-    session_start();
     include_once '../pdo_agile.php';
     include '../param_connexion_etu.php';
     $chemin = '.';
@@ -21,10 +20,10 @@
     $db_passwordOracle = "agile_1";
     $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
     $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
+    session_start();
 
     if (isset($_GET['numRes']) && !isset($_GET['ligne'])) {
-        echo $_SESSION['courriel'];
-        $sql = "select cli_num from vik_client where cli_courriel = '" . $_SESSION['courriel'] . "'";
+        $sql = "select cli_num from vik_client where cli_courriel = '" . $_SESSION['email'] . "'";
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         $cli_num = $tab[0]['CLI_NUM'];
 
@@ -35,9 +34,46 @@
 
     if (isset($_GET['submit'])) {
         if ($_GET['submit'] == '1') {
+            $sql = "select com_code_insee from vik_commune where com_nom = '" . $_GET['depart'] . "'";
+            $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+            $code_insee_deb = $tab[0]['com_code_insee'];
+            $sql = "select com_code_insee from vik_commune where com_nom = '" . $_GET['arrivee'] . "'";
+            $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+            $code_insee_fin = $tab[0]['com_code_insee'];
 
+            // Récupération de la distance totale de la correspondance
+            $sql = "select depart, arrivee, noe_distance_prochain from 
+            (
+                select com1.com_nom as depart, com2.com_nom as arrivee, noe_distance_prochain, min(noe_heure_passage) as min_horaire
+                from vik_noeud noe
+                join vik_commune com1 on noe.com_code_insee=com1.com_code_insee
+                join vik_commune com2 on noe.com_code_insee_suivant=com2.com_code_insee
+                where lig_num='1A'
+                group by (com1.com_nom, com2.com_nom, noe_distance_prochain)
+            )
+            order by min_horaire";
+            $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+            $between = false;
+            $sum = 0;
+            for($i = 0; $i < $nbLignes; $i++) {
+                if ($tab[$i]['DEPART'] == $_GET['depart'] || $between == true) {
+                    $between = true;
+                    $sum += $tab[$i]['NOE_DISTANCE_PROCHAIN'];
+                }
+            }
+
+            $sql = "insert into vik_correspondance values ('" . $_GET['ligne'] . "','$cli_num','" . $_GET['numRes'] . "','$code_insee_deb','$code_insee_fin','$sum',to_date('".$_GET['heure'].":00','hh24:mi:ss'))";
+            $nbLignes = majDonneesPDO($conn, $sql);
+            if ($nbLignes == 0) {
+                echo "<h1>Erreur lors de l'insertion de la correspondance</h1>";
+            }
+            else {
+                echo "<h1>Correspondance ajoutée avec succès</h1>";
+            }
         }
-    } else if (!isset($_GET['ligne'])) {
+    }
+
+    if (!isset($_GET['ligne']) && !isset($_GET['numRes'])) {
         $sql = "select max(res_num)+1 as max from vik_reservation";
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         $res_num = $tab[0]['MAX'];
@@ -63,9 +99,9 @@
     if (!$erreur) {
         for ($i = 0; $i < $nbLignes; $i++) {
             if (str_replace(" ", "", $tab[$i]['LIG_NUM']) == $_GET['ligne'])
-                echo "<option value='$chemin/$input.php?ligne=" . $tab[$i]['LIG_NUM'] . "' selected>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
+                echo "<option value='$chemin/$input.php?numRes=" . $_GET['numRes'] . "&ligne=" . $tab[$i]['LIG_NUM'] . "' selected>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
             else
-                echo "<option value='$chemin/$input.php?ligne=" . $tab[$i]['LIG_NUM'] . "'>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
+                echo "<option value='$chemin/$input.php?numRes=" . $_GET['numRes'] . "&ligne=" . $tab[$i]['LIG_NUM'] . "'>" . $tab[$i]["LIG_NUM"] . " - " . $tab[$i]['DEPART'] . " → " . $tab[$i]['ARRIVEE'] . "</option>";
         }
     }
     ?>
@@ -95,15 +131,15 @@
         }
 
         if (isset($_GET['villedeb']) && isset($_GET['ligne']) && isset($_GET['villefin']) && isset($_GET['heure'])) {
-            echo " <a href=\"./trajet.php?ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</button>";
+            echo " <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance</button>";
         }
 
-        if (isset($_SESSION['trajet'][$_SESSION['numRes']])) {
-            for ($j = 0; $j < count($_SESSION['trajet'][$_SESSION['numRes']]); $j++) {
-                echo "<p> Correspondance n°" . $j . $_SESSION['trajet'][$_SESSION['numRes']][$j]['ligne'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villedeb'] . " → " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villefin'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['heure'] . "</p>";
-            }
-        }
-
+        // if (isset($_SESSION['trajet'][$_SESSION['numRes']])) {
+        //     for ($j = 0; $j < count($_SESSION['trajet'][$_SESSION['numRes']]); $j++) {
+        //         echo "<p> Correspondance n°" . $j . $_SESSION['trajet'][$_SESSION['numRes']][$j]['ligne'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villedeb'] . " → " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['villefin'] . " - " . $_SESSION['trajet'][$_SESSION['numRes']][$j]['heure'] . "</p>";
+        //     }
+        // }
+        
         $conn = null;
         ?>
     </form>
