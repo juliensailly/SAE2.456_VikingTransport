@@ -11,7 +11,7 @@
     <body>
         <h1>Réservation de voyage</h1>
         <h3>Choisir une ligne</h3>
-        <form action="index.php" method="post">
+        <form action="reservation_main.php" method="post">
             <select name="ligne">
                 <option value="">--Selectionner une ligne</option>
                 <?php
@@ -21,23 +21,26 @@
                     // $_POST['ligne'] = null;
 
                     
-                $dep = $_POST['depp'];
-                $arrive = $_POST['arrive'];
+                    $dep = $_POST['depp'];
+                    $arrive = $_POST['arrive'];
 
                     include '../voir_lignes/visua_lignes.php';
                     lireLignes('', 'index');
                     include_once '../pdo_agile.php';
                     include '../param_connexion_etu.php';
 
+
                     $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
+
+                    $ligne = explode('=', $_POST['ligne'])[1];
+                    if($ligne != "") $sql = "update lignum set numero = '$ligne'";
 
                     session_start();
                     $email = $_SESSION['email'];
                     
-                    $post = $_POST['ligne'];
                     
-                    $ligne = explode('=',$post)[1];
-                    
+                    $req = majDonneesPDO($conn, $sql);
+
                     $sql = "select depart from 
                     (
                         select com1.com_nom as depart, min(noe_heure_passage) as min_horaire
@@ -66,28 +69,27 @@
                 <?php
                     include "Reservation_table.php";
                     TableDepart($ligne);
+                    $_SESSION['ligne'] = $ligne;
                 ?>
         </fieldset>
         <fieldset>
             <legend>Choisir un arrêt d'arrivée :</legend>
             <?php
-            TableArriver($ligne);
+                TableArriver($ligne);
             ?>
             
         </fieldset>
+            <input type="submit" value="Annuler">
             <input type="submit" value="Valider">
             <?php
-
                 if( $dep != "" && $arrive != ""){
                     $sql = "select cli_num from vik_client where cli_courriel = '$email'";
-                    $num = LireDonneesPDO1($conn,$sql,$tab_num);
+                    $num = LireDonneesPDO2($conn,$sql,$tab_num);
 
                 
                     $sql = "SELECT nvl(MAX(res_num), 0) as maxi FROM vik_reservation";
                     $max = LireDonneesPDO2($conn,$sql,$tab);
                     $nb_res = $tab[0]["MAXI"] + 1;
-
-
 
                     $distance = "select depart, arrivee, noe_distance_prochain from 
                     (
@@ -125,13 +127,26 @@
 
                     $sql = "insert into vik_reservation values ($num, $nb_res, ".$tab[0]["TAR_NUM_TRANCHE"].", sysdate, 0, ".$tab2[0]["TAR_VALEUR"].")";
                     $val = majDonneesPDO($conn, $sql);
-                    $conn = null;
-                }
 
-                
-            
+                    $sql = "select com_code_insee from vik_commune where com_nom = '$dep'";
+                    $depart = LireDonneesPDO2($conn, $sql, $tab);
+
+                    $sql = "select com_code_insee from vik_commune where com_nom = '$arrive'";
+                    $arr = LireDonneesPDO2($conn, $sql, $tab2);
+
+                    //afficherTab($arrive);
+
+
+                    $sql = "select numero from lignum";
+                    $req = LireDonneesPDO2($conn, $sql, $tab3);
+
+                    $sql = "insert into vik_correspondance values ('".$tab3[0]["NUMERO"]."', $num, $nb_res, ".$tab[0]["COM_CODE_INSEE"].", ".$tab2[0]["COM_CODE_INSEE"].", $sum, sysdate)";
+                    $req = majDonneesPDO($conn, $sql);
+                    $conn = null;
+                    echo "<h4>Votre trajet est bien enregistré, votre numéro de commande est : $nb_res 🚍🚌</h4>";
+                }
             ?>
-            <input type="submit" value="Annuler">
+            
 
             
         </form>

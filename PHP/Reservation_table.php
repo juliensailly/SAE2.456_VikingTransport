@@ -1,7 +1,6 @@
 <?php
 
 function TableArriver($ligne){
-
     $db_usernameOracle = "agile_1";
 	$db_passwordOracle = "agile_1"; 
 	$dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
@@ -33,11 +32,12 @@ function TableArriver($ligne){
     }
     if(!$erreur){
         for($i=0; $i<$nbLignes; $i++){
-           echo" <div><input type='radio' id='nom' name='arrive' value=",$tabC[$i]["ARRIVEE"],"><label for='nom'>",$tabC[$i]["ARRIVEE"],"</label> </div>";
+           echo" <div><input type='radio' id='nom' name='arrive' value='",$tabC[$i]["ARRIVEE"],"'><label for='nom'>",$tabC[$i]["ARRIVEE"],"</label> </div>";
         }
     }
 
 }
+
 
 function TableDepart($ligne){
 
@@ -66,14 +66,14 @@ function TableDepart($ligne){
 
     $nbLignes = LireDonneesPDO1($conn,$sqlRequeteArrivee,$tabV);
 
-       // afficherTab($tabB);
+       //afficherTab($tabV);
 
     if($nbLignes == 0){
         $erreur=true;      
     }
     if(!$erreur){
         for($i=0; $i<$nbLignes; $i++){
-           echo" <div><input type='radio' id='nom' name='depp' value=",$tabV[$i]["DEPART"],"><label for='nom'>",$tabV[$i]["DEPART"],"</label> </div>";
+           echo" <div><input type='radio' id='nom' name='depp' value='",$tabV[$i]["DEPART"],"'><label for='nom'>",$tabV[$i]["DEPART"],"</label> </div>";
         }
     }
     $conn = null;

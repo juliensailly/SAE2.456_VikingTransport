@@ -301,29 +301,29 @@ insert into vik_type_client values (3 , 'junior'     , 3000   , 80);
 insert into vik_type_client values (4 , 'argent'     , 10000  , 65);
 insert into vik_type_client values (5 , 'or'         , 50000  , 50);
 
-insert into vik_client values ('0','','','NON INSCRIT','','','','','0','0','');
-insert into vik_client values ('4','1','14','MARIE','Veronique','Caen','','v.marie@gmal.com','5','5','16/01/2023');
-insert into vik_client values ('5','2','14','LE BOURGEOIS','Bernard','Caen','0033231112118','nanard@orage.fr','35','35','13/12/2022');
-insert into vik_client values ('6','2','50','SMITH','Tom','Cherbourg','','tom.smith43@free.uk','46','46','15/03/2023');
-insert into vik_client values ('7','2','14','MARIE','Josiane','Ifs','0033621112112','j.marie@frie.fr','25','35','13/01/2023');
-insert into vik_client values ('8','2','14','DURAND','Paul','Ifs','0033231202020','paul.durand@wanadoo.fr','38','58','28/03/2023');
-insert into vik_client values ('9','2','61','POULEQ','Patrick','Flers','0033612202021','','106','306','16/03/2023');
-insert into vik_client values ('10','3','61','NEIGE','Blanche','Flers','0033612202022','','9','3410','10/03/2023');
-insert into vik_client values ('11','3','61','ESCARRE','Stéphane','Flers','','sescarre@wanadogou.ke','95','3795','09/04/2023');
-insert into vik_client values ('13','1','50','SUPORMOI','Sylvie','Cherbourg','','','8','8','14/08/2022');
-insert into vik_client values ('16','2','14','LITON','Samir','Ifs','0033123888456','samirliton@orage.fr','24','44','15/10/2022');
-insert into vik_client values ('18','2','14','DURAND','Simone','Ifs','0033729113115','simone.durand@gmal.com','65','65','13/02/2023');
-insert into vik_client values ('20','2','14','JORT','Etama','Ifs','0033623524456','etamajort@frie.fr','46','246','11/04/2023');
-insert into vik_client values ('24','5','14','VERGLASSEE','Ruth','Ifs','0033729113116','rverglassee@gmal.com','55','58000','13/10/2022');
-insert into vik_client values ('26','3','14','GZAGUEE','Suzie','Caen','0033729403110','suzie14@gmal.com','9','4908','16/02/2023');
-insert into vik_client values ('27','4','76','NAGE','Icare','Rouen','0033619003100','icarenage@gmal.com','46','13506','05/04/2023');
-insert into vik_client values ('31','1','14','SUPLONG','Arthur','Boulon','0033666004007','supdeboulon@gmal.com','2','2','05/04/2023');
-insert into vik_client values ('33','2','50','TALUT','Jean','Cherbourg','','4jeantalut@gmal.com','81','198','13/04/2023');
-insert into vik_client values ('35','3','50','DEWAERE','Marlène','Valognes','','marlenedewaere@gmal.com','95','3505','12/04/2023');
-insert into vik_client values ('38','5','50','RIVES','Chiquita','Taillepied','0033688241309','ChiquitaRives@gmal.com','0','53200','15/10/2022');
-insert into vik_client values ('40','1','61','POIGNON','Vincent','Flers','','','0','0','01/05/2022');
-insert into vik_client values ('41','1','61','DE THUNE','Aplu','Alençon','','','0','0','01/04/2022');
-insert into vik_client values ('42','1','14','CANTE','Hermine','Caen','','','0','0','01/09/2022');
+insert into vik_client values ('0','','','NON INSCRIT','','','','','0','0','', '', '');
+insert into vik_client values ('4','1','14','MARIE','Veronique','Caen','','v.marie@gmal.com','5','5','16/01/2023', '', '');
+insert into vik_client values ('5','2','14','LE BOURGEOIS','Bernard','Caen','0033231112118','nanard@orage.fr','35','35','13/12/2022', '', '');
+insert into vik_client values ('6','2','50','SMITH','Tom','Cherbourg','','tom.smith43@free.uk','46','46','15/03/2023', '', '');
+insert into vik_client values ('7','2','14','MARIE','Josiane','Ifs','0033621112112','j.marie@frie.fr','25','35','13/01/2023', '', '');
+insert into vik_client values ('8','2','14','DURAND','Paul','Ifs','0033231202020','paul.durand@wanadoo.fr','38','58','28/03/2023', '', '');
+insert into vik_client values ('9','2','61','POULEQ','Patrick','Flers','0033612202021','','106','306','16/03/2023', '', '');
+insert into vik_client values ('10','3','61','NEIGE','Blanche','Flers','0033612202022','','9','3410','10/03/2023', '', '');
+insert into vik_client values ('11','3','61','ESCARRE','Stéphane','Flers','','sescarre@wanadogou.ke','95','3795','09/04/2023', '', '');
+insert into vik_client values ('13','1','50','SUPORMOI','Sylvie','Cherbourg','','','8','8','14/08/2022', '', '');
+insert into vik_client values ('16','2','14','LITON','Samir','Ifs','0033123888456','samirliton@orage.fr','24','44','15/10/2022', '', '');
+insert into vik_client values ('18','2','14','DURAND','Simone','Ifs','0033729113115','simone.durand@gmal.com','65','65','13/02/2023', '', '');
+insert into vik_client values ('20','2','14','JORT','Etama','Ifs','0033623524456','etamajort@frie.fr','46','246','11/04/2023', '', '');
+insert into vik_client values ('24','5','14','VERGLASSEE','Ruth','Ifs','0033729113116','rverglassee@gmal.com','55','58000','13/10/2022', '', '');
+insert into vik_client values ('26','3','14','GZAGUEE','Suzie','Caen','0033729403110','suzie14@gmal.com','9','4908','16/02/2023', '', '');
+insert into vik_client values ('27','4','76','NAGE','Icare','Rouen','0033619003100','icarenage@gmal.com','46','13506','05/04/2023', '', '');
+insert into vik_client values ('31','1','14','SUPLONG','Arthur','Boulon','0033666004007','supdeboulon@gmal.com','2','2','05/04/2023', '', '');
+insert into vik_client values ('33','2','50','TALUT','Jean','Cherbourg','','4jeantalut@gmal.com','81','198','13/04/2023', '', '');
+insert into vik_client values ('35','3','50','DEWAERE','Marlène','Valognes','','marlenedewaere@gmal.com','95','3505','12/04/2023', '', '');
+insert into vik_client values ('38','5','50','RIVES','Chiquita','Taillepied','0033688241309','ChiquitaRives@gmal.com','0','53200','15/10/2022', '', '');
+insert into vik_client values ('40','1','61','POIGNON','Vincent','Flers','','','0','0','01/05/2022', '', '');
+insert into vik_client values ('41','1','61','DE THUNE','Aplu','Alençon','','','0','0','01/04/2022', '', '');
+insert into vik_client values ('42','1','14','CANTE','Hermine','Caen','','','0','0','01/09/2022', '', '');
 
 
 
@@ -371,7 +371,7 @@ insert into vik_commune values ('27218','27','Epaignes','1561');
 insert into vik_commune values ('27229','27','Évreux','46869');
 insert into vik_commune values ('14258','14','Falaise','7849');
 insert into vik_commune values ('76259','76','Fécamp','18054');
-insert into vik_commune values ('50184','50','Flamanville ','1767');
+insert into vik_commune values ('50184','50','Flamanville','1767');
 insert into vik_commune values ('61169','61','Flers','14589');
 insert into vik_commune values ('61181','61','Gacé','1796');
 insert into vik_commune values ('27275','27','Gaillon','6833');
@@ -5773,6 +5773,7 @@ select noe_distance_prochain from vik_noeud;
 -- delete from vik_noeud;
 
 select * from vik_reservation where  cli_num =0 order by res_num desc;
+select * from vik_correspondance;
 select * from vik_client;
 select * from vik_type_client;
 select * from vik_tarif;
@@ -5795,3 +5796,18 @@ select tar_num_tranche from vik_tarif where 203 between tar_min_dist and tar_max
 select tar_valeur from vik_tarif where tar_num_tranche = 12;
 
 select tar_num_tranche from vik_tarif where 114 between tar_min_dist and tar_max_dist;
+
+select * from vik_client;
+
+select com_code_insee from vik_commune where com_nom = 'Lison';
+drop table vik_reservation cascade constraints;
+
+create table lignum (
+    numero varchar2(10)
+);
+
+insert into lignum values ('1A');
+delete from lignum;
+commit;
+select * from lignum;
+select numero from lignum;
