@@ -47,7 +47,7 @@
         echo "<br>";
         echo "<input type='button' value='Modifier'>";
         echo "<input type='button' value='Quitter' onclick='location.href=\"showProfil.php\"'>";
-
+        $conn = null;
     ?>
 </body>
 </html>

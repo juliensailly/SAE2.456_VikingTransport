@@ -45,7 +45,8 @@
             echo "<p> $tab[$i][''] </p>";
         }
 
-        echo "<input type='button' value='Modifier' onclick='location.href=\"modifier_profil.php\"'>"
+        echo "<input type='button' value='Modifier' onclick='location.href=\"modifier_profil.php\"'>";
+        $conn = null;
     ?>
 </body>
 </html>
