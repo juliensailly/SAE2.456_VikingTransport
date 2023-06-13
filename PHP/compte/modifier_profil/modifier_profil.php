@@ -17,7 +17,6 @@
     $password = $_POST['password'];
     $error = 0;
 
-    afficherTab($_POST);
     if(isset($nom) && !empty($nom)){
         $error = update($conn, $nom, 'cli_nom', $tab_num[0]['CLI_NUM']);
     }
