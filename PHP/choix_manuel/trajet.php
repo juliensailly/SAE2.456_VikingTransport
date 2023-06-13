@@ -21,9 +21,6 @@ session_start();
     include '../param_connexion_etu.php';
     $chemin = '.';
     $input = 'trajet';
-    $db_usernameOracle = "agile_1";
-    $db_passwordOracle = "agile_1";
-    $dbOracle = "oci:dbname=kiutoracle18.unicaen.fr:1521/info.kiutoracle18.unicaen.fr;charset=AL32UTF8";
     $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
 
     if (isset($_GET['numRes']) && !isset($_GET['ligne'])) {
@@ -159,22 +156,30 @@ session_start();
         }
 
         // Visualisation du trajet
-        $sql = "select lig_num, com_code_insee_depart, com_code_insee_arrivee, corr_distance, corr_heure from vik_correspondance where res_num = '".$_GET['numRes']."'";
+        $sql = "select lig_num, com_code_insee_depart, com_code_insee_arrivee, corr_distance, to_char(corr_heure,'hh24:mi') as corr_heure from vik_correspondance where res_num = '" . $_GET['numRes'] . "'";
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         if ($nbLignes > 0) {
             echo "<h3>Trajets de la réservation</h3>";
-            for ($i = 0; $i < $nbLignes; $i++){
-                $sql = "select com_nom from vik_commune where com_code_insee = '".$tab[$i]['COM_CODE_INSEE_DEPART']."'";
-                $nbLignes = LireDonneesPDO1($conn, $sql, $tab2);
-                $sql = "select com_nom from vik_commune where com_code_insee = '".$tab[$i]['COM_CODE_INSEE_ARRIVEE']."'";
-                $nbLignes = LireDonneesPDO1($conn, $sql, $tab3);
-                echo "<p>De ".$tab2[0]['COM_NOM']." à ".$tab3[0]['COM_NOM']." sur la ligne ".$tab[$i]['LIG_NUM']." à ".$tab[$i]['CORR_HEURE']." pour ".$tab[$i]['CORR_DISTANCE']." km</p>";
+            $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[0]['COM_CODE_INSEE_DEPART'] . "'";
+            $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
+            $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[0]['COM_CODE_INSEE_ARRIVEE'] . "'";
+            $nbLignesB = LireDonneesPDO1($conn, $sql, $tab3);
+            echo $tab2[0]['COM_NOM'] . " (" . $tab[0]['CORR_HEURE'] . ") ---------- " . $tab[0]['LIG_NUM'] . " - " . $tab[0]['CORR_DISTANCE'] . " km" . " ------->  " . $tab3[0]['COM_NOM'] . " ( ";
+            for ($i = 1; $i < $nbLignes; $i++) {
+                $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[$i]['COM_CODE_INSEE_DEPART'] . "'";
+                $nbLignesB = LireDonneesPDO1($conn, $sql, $tab4);
+                $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[$i]['COM_CODE_INSEE_ARRIVEE'] . "'";
+                $nbLignesB = LireDonneesPDO1($conn, $sql, $tab5);
+                if ($tab3[0]['COM_NOM'] == $tab4[0]['COM_NOM']) {
+                    echo " (" . $tab[$i]['CORR_HEURE'] . ")  -------- " . $tab[$i]['LIG_NUM'] . " - " . $tab[$i]['CORR_DISTANCE'] . " km ------->  " . $tab5[0]['COM_NOM'];
+                } else {
+                    echo "<br>" . $tab4[0]['COM_NOM'] . " (" . $tab[$i]['CORR_HEURE'] . ") -------- " . $tab[$i]['LIG_NUM'] . " - " . $tab[$i]['CORR_DISTANCE'] . " km ------->  " . $tab5[0]['COM_NOM'];
+                }
+                $tab3[0]['COM_NOM'] = $tab5[0]['COM_NOM'];
             }
         }
-        
 
-        
-        
+
         $conn = null;
         ?>
     </form>
