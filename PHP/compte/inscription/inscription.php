@@ -66,7 +66,7 @@
     }
 
     function useRegexEmail($input){
-        $regex = '/^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/';
+        $regex = '/^[a-zA-Z0-9_.]+@[a-zA-Z0-9_.]+\.[a-zA-Z0-9_]+$/';
         return preg_match($regex, $input);
     }
 
