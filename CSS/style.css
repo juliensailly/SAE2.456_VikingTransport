@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+
 nav {
   background-color: #f2f2f2;
   padding: 10px;
@@ -31,7 +36,36 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #212121;
   padding: 8px;
+}
+
+/* Style des trajets */
+div * {
+  margin: 1em;
+}
+
+div a {
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px #333;
+}
+
+div a:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+select {
+  height: 30vh;
+}
+
+select option {
+  margin: 0;
+  padding: 1em;
+  border: solid black 1px;
 }
