@@ -19,6 +19,10 @@ li {
   margin-right: 10px;
 }
 
+nav a {
+  margin: 0px;
+}
+
 a {
   display: inline-block;
   text-decoration: none;
