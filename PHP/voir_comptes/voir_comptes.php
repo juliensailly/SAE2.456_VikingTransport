@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <a href="../../index.php">Retour à l'accueil</a>
     <h1>Liste des clients</h1>
     <form method="get">
         <select name="" id="" onchange="location=this.value;">
@@ -34,13 +35,14 @@
                     }
                 }
             }
-
+            $conn = null;
         ?>
         </select>
     </form>
     <?php
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
+        include './delete_compte.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
         if(isset($_GET['client_num'])) {
             $sql = "select cli_num, cli_nom, cli_prenom, cli_courriel, cli_ville, cli_date_connec from vik_client where cli_num=" . $_GET['client_num'] . "order by cli_num asc";
@@ -53,9 +55,14 @@
                     echo "<tr> <td>" . $tab[$i]["CLI_NUM"] . "</td> <td name='client_nom'>" . $tab[$i]["CLI_NOM"] . "</td> <td>" . $tab[$i]["CLI_PRENOM"] . "</td> <td>" . $tab[$i]["CLI_VILLE"] . "</td> <td>" . $tab[$i]["CLI_COURRIEL"] . "</td> <td>" . $tab[$i]["CLI_DATE_CONNEC"] . "</td> </tr>";
                 }
                 echo "</table>";
-                echo "<input type=\"button\" value=\"Voir Reservation\" onclick=\"window.location.href='../voir_reservation/voir_reservation.php?client_num=" . $_GET['client_num'] . "&client_nom=" . $tab[0]["CLI_NOM"] . "&client_prenom=" . $tab[0]["CLI_PRENOM"]. "';\"/>";
+                echo "<a href='../voir_reservation/voir_reservation.php?client_num=" . $_GET['client_num'] . "&client_nom=" . $tab[0]["CLI_NOM"] . "&client_prenom=" . $tab[0]["CLI_PRENOM"] ."'>Voir Reservation</a>";
+                echo "<a href='./voir_comptes.php?client_num=" . $_GET['client_num'] ."&delete_button=1 '>Supprimer Client</a>";
+            }
+            if(isset($_GET['delete_button'])) {
+                supprimerCompte($_GET['client_num']);
             }
         }
+        $conn = null;
     ?>
 </body>
 </html>

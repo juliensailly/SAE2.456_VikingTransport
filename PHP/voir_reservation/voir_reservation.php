@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body>
+    <a href="../../index.php">Retour à l'accueil</a>
     <?php
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
@@ -32,6 +33,7 @@
         } else {
             echo "<p>erreur</p>";
         }   
+        $conn = null;
     ?>
 </body>
 </html>
