@@ -20,18 +20,21 @@
         </select>
     </form>
     <form method="get" >
-        <select name="menuHoraire" id="menuVilleDebu" onchange="location = this.value;">
+        <select name="menuVilleDeb" id="menuVilleDeb" onchange="location = this.value;">
             <?php
                 include "choix_manuel.php";
                 if(isset($_GET['ligne']))
                     afficherVilleDebut($_GET['ligne']);
             ?>
         </select>
-        <select name="menuHoraire" id="menuVilleTerm" >
+        <select name="menuVilleTerm" id="menuVilleTerm" onchange="location = this.value;">
             <?php
+                include "choix_ville_fin.php";
+                if(isset($_GET['villedeb']))
+                    afficherVilleTerm($_GET['ligne'], $_GET['villedeb']);
             ?>
         </select>
-    </form>
+    </form>   
 </body>
 </html>
 
