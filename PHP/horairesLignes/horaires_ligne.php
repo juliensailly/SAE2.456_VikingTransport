@@ -148,6 +148,9 @@
         echo "</tr>";
         echo "</table>";
         $cur->closeCursor();
+        $conn = null;
+    } else {
+        echo "Veuillez sélectionner une ligne";
     }
     ?>
 </body>

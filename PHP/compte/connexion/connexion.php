@@ -27,10 +27,12 @@
             $req = majDonneesPDO($conn, $sql);
 
             echo "Connexion réussie";
+            $conn = null;
         }else{
             echo "Mot de passe incorrect";
             echo "<br>";
             echo "<a href='formulaire.html'>Retour</a>";
+            $conn = null;
         }
     }
 
