@@ -19,9 +19,8 @@
             ?>
         </select>
     </form>
-
-    <form method="get" onchange="location = this.value;">
-        <select name="menuHoraire" id="menuVilleDebu">
+    <form method="get" >
+        <select name="menuHoraire" id="menuVilleDebu" onchange="location = this.value;">
             <?php
                 include "choix_manuel.php";
                 if(isset($_GET['ligne']))
