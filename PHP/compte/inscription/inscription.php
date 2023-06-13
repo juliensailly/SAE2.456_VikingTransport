@@ -44,6 +44,8 @@
                 $conn = null;
             }else{
                 echo "Votre compte a bien été créé";
+                echo "<br>";
+                echo "<a href='../../../index.php'>Retour</a>";
                 $conn = null;
             }
         }
