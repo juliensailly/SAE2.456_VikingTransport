@@ -4,7 +4,7 @@
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-        $sql = "DELETE FROM vik_client WHERE cli_num =" . $cli_num;
+        $sql = "DELETE FROM vik_client WHERE cli_num =" . $cli_num . "and cli_num != 63";
         $res = majDonneesPDO($conn, $sql);
         if($res) {
             echo "<p>suppression réussi</p>";
