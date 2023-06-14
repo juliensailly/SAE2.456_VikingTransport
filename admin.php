@@ -15,6 +15,7 @@
       <li><a href="index.php">ACCUEIL</a></li>
       <li><a href="PHP/voir_comptes/voir_comptes.php">VOIR CLIENT</a></li>
       <li><a href="PHP/client_inactif/client_inactif.php">VOIR CLIENTS INACTIFS</a></li>
+      <li><a href="PHP/statistiques/statistiques.php" class="stat">STATISTIQUES</a></li>
     </ul>
   </nav>
 </body>

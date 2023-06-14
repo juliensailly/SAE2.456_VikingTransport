@@ -28,8 +28,8 @@ session_start();
           echo "<li><a href=\"PHP/compte/modifier_profil/form.html\" class=\"modif\">MODIFIER PROFIL</a></li>";
           echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\" class=\"show\">VOIR PROFIL</a></li>";
         }
-      ?>
-            <li><a href="PHP/choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+      ?>      
+      <li><a href="PHP/choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
       <?php
         if(isset($_SESSION['admin'])){
           if($_SESSION['admin'] == true){
