@@ -6,6 +6,13 @@
     <title>Document</title>
 </head>
 <body>
+<nav>
+        <ul>
+            <li><a href="../../../index.php">ACCUEIL</a></li>
+            <li><a href="../../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+            <li><a href="../../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+          </ul>
+    </nav>
     <a href='../../index.php'>Retour à l'accueil</a>
     <?php
     echo "<form action='modifier_profil.php?email = " . $_GET['email'] . "' method='get'>";
