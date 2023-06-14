@@ -8,47 +8,32 @@
     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body>
-    <form method="get">
-        <select name="" id="" onchange="location=this.value;">
-        <?php
-            include_once '../pdo_agile.php';
-            include '../param_connexion_etu.php';
-            $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-            $erreur = false;
-            $sql = "select cli_nom,cli_prenom,cli_num from vik_client";
-            $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-            if ($nbLignes == 0) {
-                $erreur = true;
-            }
-            if (!$erreur) {
-                for ($i = 0; $i < $nbLignes; $i++) {
-                    if (str_replace(" ", "", $tab[$i]['CLI_NUM']) == $_GET['client'])
-                    echo "<option value='./voir_reservation.php?client=" .$tab[$i]['CLI_NUM']."'selected>". $tab[$i]['CLI_NUM'] . " : " . $tab[$i]["CLI_NOM"] . " " . $tab[$i]['CLI_PRENOM'] . "</option>";
-                    else{
-                    echo "<option value='./voir_reservation.php?client=" .$tab[$i]['CLI_NUM']."'>". $tab[$i]['CLI_NUM'] . " : " . $tab[$i]["CLI_NOM"] . " " . $tab[$i]['CLI_PRENOM'] . "</option>";
-                    }
-                }
-            }
-
-        ?>
-        </select>
-    </form>
+    <a href="../../index.php">Retour à l'accueil</a>
     <?php
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-        $erreur = false;
-        if(isset($_GET['client'])){
+
+        if(isset($_GET['client_num'])){
+            echo "<h1>Reservations de " . $_GET['client_prenom'] . " " . $_GET['client_nom'] . "</h1>";
+
             $sql = "select cli_nom, cli_prenom, res_num, tar_num_tranche, res_date, res_nb_points, res_prix_tot from vik_client
             join vik_reservation using(cli_num) 
-            where cli_num=" .$_GET['client'];
+            where cli_num=" .$_GET['client_num'] . "order by res_num desc";
             $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-            echo "<table> <tr> <th>Reservation num</th> <th>Tranche Tarif</th> <th>Date réservation</th> <th>Nombre de points</th> <th>Prix</th></tr>";
-            for ($i = 0; $i < $nbLignes; $i++) {
-                    echo "<tr> <td>" . $tab[$i]["RES_NUM"] . "</td> " . "<td>" . $tab[$i]["TAR_NUM_TRANCHE"] . "</td>" . "<td>" . $tab[$i]["RES_DATE"] . "</td>" . "<td>" . $tab[$i]["RES_NB_POINTS"] . "</td> " . "<td>" . $tab[$i]["RES_PRIX_TOT"] . "</td> </tr>";
+            if($nbLignes == 0) {
+                echo "<p>Ce client n'a pas de réservations</p>";
+            } else {
+                echo "<table> <tr> <th>Reservation num</th> <th>Tranche Tarif</th> <th>Date réservation</th> <th>Nombre de points</th> <th>Prix</th></tr>";
+                for ($i = 0; $i < $nbLignes; $i++) {
+                        echo "<tr> <td>" . $tab[$i]["RES_NUM"] . "</td> " . "<td>" . $tab[$i]["TAR_NUM_TRANCHE"] . "</td>" . "<td>" . $tab[$i]["RES_DATE"] . "</td>" . "<td>" . $tab[$i]["RES_NB_POINTS"] . "</td> " . "<td>" . $tab[$i]["RES_PRIX_TOT"] . "</td> </tr>";
+                }
+                echo "</table>";
             }
-            echo "</table>";
-        }
+        } else {
+            echo "<p>erreur</p>";
+        }   
+        $conn = null;
     ?>
 </body>
 </html>

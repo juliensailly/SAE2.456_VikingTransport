@@ -1,4 +1,5 @@
 <?php
+    echo "<a href='../../../index.php'>Retour à l'accueil</a> <br>";
     include_once '../../pdo_agile.php';
     $db_usernameOracle = "agile_1";
     $db_passwordOracle = "agile_1";
@@ -21,12 +22,20 @@
             $sql = "select cli_num from vik_client where cli_courriel = '$email'";
             LireDonneesPDO1($conn,$sql,$tab_num);
             $_SESSION['num'] = $tab_num;
-            echo "<a href='../modifier_profil/showProfil.php'>Informations</a>";
+            echo "<a href='../modifier_profil/showProfil.php'>Informations</a> <br>";
 
             $sql = "update vik_client set cli_date_connec = sysdate where cli_courriel = '$email'";
             $req = majDonneesPDO($conn, $sql);
 
             echo "Connexion réussie";
+
+            if($email == 'admin@admin.com' && $password == 'admin'){
+                $_SESSION['admin'] = true;
+                echo "<br>";
+                echo "<a href='../../../admin.php'>Admin</a>";
+            }else{
+                $_SESSION['admin'] = false;
+            }
             $conn = null;
         }else{
             echo "Mot de passe incorrect";
