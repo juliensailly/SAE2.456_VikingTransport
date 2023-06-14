@@ -34,17 +34,27 @@
     $sql1 = "select * from vik_type_client
     join vik_client using(typ_num)
     where typ_num>=all ( select typ_num from vik_type_client)";
-    $cur = preparerRequetePDO($conn, $sql1);
-    $ligne = $cur->fetch(PDO::FETCH_ASSOC);
+    $cur1 = preparerRequetePDO($conn, $sql1);
+    $ligne = $cur1->fetch(PDO::FETCH_ASSOC);
     $nbLignes = LireDonneesPDO1($conn, $sql1, $tab1);
-    LireDonneesPDOPreparee($cur, $ligne);
+    LireDonneesPDOPreparee($cur1, $ligne1);
     foreach ($tab1 as $ligne) {
         echo "<p>Numéro : ".$ligne['CLI_NUM']. " / Nom : ".$ligne['CLI_NOM']." / Prénom : ".$ligne['CLI_PRENOM']. " / Nombre Point total : ". $ligne['CLI_NB_POINTS_TOT']. " / Grade : ".$ligne['TYP_NOM']." </p>";
     }
-    $conn = null;
 
-    echo"<h3>Prix moyen de réservation</h3>";
     
+
+    $sql2 = "select round(avg(res_prix_tot),2) as PRIX_MOYEN from vik_reservation";
+    $cur2 = preparerRequetePDO($conn, $sql2);
+    $ligne2 = $cur2->fetch(PDO::FETCH_ASSOC);
+    $nbLignes = LireDonneesPDO1($conn, $sql2, $tab2);
+    LireDonneesPDOPreparee($cur2, $ligne2);
+    foreach ($tab2 as $ligne2) {
+        echo"<h2>Prix moyen de réservation :   ".$ligne2['PRIX_MOYEN']."€ </h2>";
+    }
+    $conn = null;
+    
+
 
 
     ?>
