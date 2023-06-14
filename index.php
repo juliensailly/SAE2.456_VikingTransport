@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,7 +17,6 @@
 <nav>
     <ul>
       <?php
-        session_start();
         if(!isset($_SESSION['email'])){
           echo "<li><a href=\"PHP/compte/connexion/formulaire.html\">CONNEXION</a></li>";
           echo "<li><a href=\"PHP/compte/inscription/formulaire.html\">INSCRIPTION</a></li>";
