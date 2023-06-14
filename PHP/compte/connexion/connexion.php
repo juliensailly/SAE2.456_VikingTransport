@@ -27,6 +27,14 @@
             $req = majDonneesPDO($conn, $sql);
 
             echo "Connexion réussie";
+
+            if($email == 'admin@admin.com' && $password == 'admin'){
+                $_SESSION['admin'] = true;
+                echo "<br>";
+                echo "<a href='../../../admin.php'>Admin</a>";
+            }else{
+                $_SESSION['admin'] = false;
+            }
             $conn = null;
         }else{
             echo "Mot de passe incorrect";

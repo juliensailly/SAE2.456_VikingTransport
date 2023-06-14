@@ -19,8 +19,17 @@
       <li><a href="PHP/statistiques/statistiques.php">STATISTIQUES</a></li>
       <li><a href="PHP/reservation_NInscrit_ligne_unique/index.php">RESERVER</a></li>
       <li><a href="PHP/choix_manuel/trajet.php">CHOISIR MANUELLEMENT</a></li>
-      <li><a href="PHP/voir_reservation/voir_reservation.php">ADMIN VOIR RESERVATIONS</a></li>
-      <li><a href="PHP/client_inactif/client_inactif.php">ADMIN VOIR CLIENTS INACTIFS</a></li>
+      <?php
+        session_start();
+        if(isset($_SESSION['admin'])){
+          echo "<li><a href=\"admin.php\">ADMIN</a></li>";
+        }
+      ?>
+      <?php
+        if(isset($_SESSION['email'])){
+          echo "<li><a href=\"PHP/compte/deconnexion/deconnexion.php\">Deconnexion</a></li>";
+        }
+      ?>
     </ul>
   </nav>
 </body>
