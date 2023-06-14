@@ -160,11 +160,13 @@ session_start();
                 echo "<br> <a href=\"./trajet.php?numRes=" . $_GET['numRes'] . "&ligne=" . $_GET['ligne'] . "&villedeb=" . $_GET['villedeb'] . "&villefin=" . $_GET['villefin'] . "&heure=" . $_GET['heure'] . "&submit=1\">Ajouter la correspondance/Valider</a>";
             }
 
+            echo "</form>";
             // Visualisation du trajet
             $sql = "select lig_num, com_code_insee_depart, com_code_insee_arrivee, corr_distance, to_char(corr_heure,'hh24:mi') as corr_heure from vik_correspondance where res_num = '" . $_GET['numRes'] . "'";
             $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
             if ($nbLignes > 0) {
                 echo "<h3>Trajets de la réservation</h3>";
+                echo "<p>";
                 $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[0]['COM_CODE_INSEE_DEPART'] . "'";
                 $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
                 $sql = "select com_nom from vik_commune where com_code_insee = '" . $tab[0]['COM_CODE_INSEE_ARRIVEE'] . "'";
@@ -199,16 +201,21 @@ session_start();
                 }
 
                 echo "<br><br>Distance totale : " . $distance_totale . " km<br>Prix total : " . $prix_total . " €";
-                $sql = "select tar_valeur from vik_tarif where ceil($distance_totale) between tar_min_dist and tar_max_dist";
+                $sql = "select tar_num_tranche from vik_tarif where ceil($distance_totale) between tar_min_dist and tar_max_dist";
                 $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
                 $tranchePrix = 1;
                 if ($nbLignesB == 0) {
                     $tranchePrix = 13;
                 } else {
-                    $tranchePrix = $tab2[0]['TAR_VALEUR'];
+                    $tranchePrix = $tab2[0]['TAR_NUM_TRANCHE'];
                 }
                 $sql = "update vik_reservation set tar_num_tranche = " . $tranchePrix . ", res_nb_points = round(" . ($distance_totale / 10) . "), res_prix_tot = $prix_total where res_num = '" . $_GET['numRes'] . "'";
+                echo $sql;
                 $nbLignesB = majDonneesPDO($conn, $sql);
+                
+                // Bouton de paiement
+                echo "<br><br><a href=\"./paiement.php?numRes=" . $_GET['numRes'] . "\">Payer la réservation 🤑</a>";
+                echo "</p>";
             }
 
 
