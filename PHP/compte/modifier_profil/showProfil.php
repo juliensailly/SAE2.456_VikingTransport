@@ -6,6 +6,13 @@
     <title>Document</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="../../../index.php">ACCUEIL</a></li>
+            <li><a href="../../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+            <li><a href="../../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+          </ul>
+    </nav>
     <?php
         $db_usernameOracle = "agile_1";
         $db_passwordOracle = "agile_1";
