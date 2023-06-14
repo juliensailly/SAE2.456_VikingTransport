@@ -217,7 +217,6 @@ session_start();
                     $tranchePrix = $tab2[0]['TAR_NUM_TRANCHE'];
                 }
                 $sql = "update vik_reservation set tar_num_tranche = " . $tranchePrix . ", res_nb_points = round(" . ($distance_totale / 10) . "), res_prix_tot = $prix_total where res_num = '" . $_GET['numRes'] . "'";
-                echo $sql;
                 $nbLignesB = majDonneesPDO($conn, $sql);
                 
                 // Bouton de paiement

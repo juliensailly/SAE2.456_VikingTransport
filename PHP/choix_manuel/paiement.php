@@ -63,12 +63,12 @@ session_start();
                 include_once '../pdo_agile.php';
                 include '../param_connexion_etu.php';
                 $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
-                $sql = "SELECT cli_num, cli_nb_points_tot, res_num
+                $sql = "SELECT cli_num, cli_nb_points_ec, res_num
                     FROM vik_client
                     JOIN vik_reservation USING (cli_num)
                     WHERE res_num = " . $_GET['numRes'];
                 $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-                $nbPoints = $tab[0]['CLI_NB_POINTS_TOT'];
+                $nbPoints = $tab[0]['CLI_NB_POINTS_EC'];
                 echo "($nbPoints) :</label>";
                 if ($nbPoints == 0) {
                     echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\" disabled>";
@@ -98,12 +98,12 @@ session_start();
                 if (isset($_SESSION['num'][0]['CLI_NUM'])) {
                     $cli_num = $_SESSION['num'][0]['CLI_NUM'];
                 }
-                $sql = "SELECT cli_num, cli_nb_points_tot, res_num
+                $sql = "SELECT cli_num, cli_nb_points_ec, res_num
                 FROM vik_client
                 JOIN vik_reservation USING (cli_num)
                 WHERE res_num = " . $_GET['numRes'];
                 $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-                $nbPoints = $tab[0]['CLI_NB_POINTS_TOT'];
+                $nbPoints = $tab[0]['CLI_NB_POINTS_ec'];
 
                 $sql = "update vik_client set cli_nb_points_ec = (select cli_nb_points_ec from vik_client where cli_num = " . $cli_num . ") - $nbPoints where cli_num = " . $cli_num;
                 $nbLignes = majDonneesPDO($conn, $sql);
@@ -127,7 +127,7 @@ session_start();
             $cli_num = $_SESSION['num'][0]['CLI_NUM'];
         }
 
-        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
+        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $cli_num;
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         $prix = $tab[0]['RES_PRIX_TOT'];
         $sql = "select cli_nb_points_ec from vik_client where cli_num = " . $cli_num;
