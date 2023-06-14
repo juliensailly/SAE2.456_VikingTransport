@@ -56,6 +56,7 @@
                 }
                 echo "</table>";
                 echo "<a href='../voir_reservation/voir_reservation.php?client_num=" . $_GET['client_num'] . "&client_nom=" . $tab[0]["CLI_NOM"] . "&client_prenom=" . $tab[0]["CLI_PRENOM"] ."'>Voir Reservation</a>";
+                echo "<a href='./form.php?email=" . $tab[0]["CLI_COURRIEL"] . "'>Modifier Profil</a>";
                 echo "<a href='./voir_comptes.php?client_num=" . $_GET['client_num'] ."&delete_button=1 '>Supprimer Client</a>";
             }
             if(isset($_GET['delete_button'])) {

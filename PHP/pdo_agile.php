@@ -57,7 +57,7 @@ function majDonneesPrepareesTabPDO($cur,$tab) // fonctionne directement après p
 function LireDonneesPDO1($conn,$sql,&$tab) // requêtes select non préparées
 {
 	$i=0;
-	foreach  ($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
+	foreach($conn->query($sql,PDO::FETCH_ASSOC) as $ligne)     
 		$tab[$i++] = $ligne;
 	$nbLignes = $i;
 	return $nbLignes;
