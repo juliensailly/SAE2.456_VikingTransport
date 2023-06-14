@@ -6,18 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../CSS/style.css">
     <?php
+    session_start();
     if (isset($_GET['numRes'])) {
         echo "<title>Paiement de la réservation n°" . $_GET['numRes'] . "</title>";
     } else {
         echo "<title>Paiement de la réservation</title>";
     }
-
-
     ?>
 </head>
 
 <body>
-    <h1>Paiement de la réservation</h1>
+    <?php
+    if (isset($_GET['numRes'])) {
+        include_once '../pdo_agile.php';
+        include '../param_connexion_etu.php';
+        $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
+        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'];
+        $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+        $prix = $tab[0]['RES_PRIX_TOT'];
+        echo "<h1>Paiement de la réservation : $prix €</h1>";
+    } else {
+        echo "<h1>Paiement de la réservation</h1>";
+    }
+    echo "|" . $_SESSION['num'] . "|";
+    ?>
+
     <fieldset>
         <legend>Informations de paiement</legend>
         <?php
@@ -50,8 +63,15 @@
                 $nbPoints = $tab[0]['CLI_NB_POINTS_TOT'];
                 echo "($nbPoints) :</label>";
                 $conn = null;
-                echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\">Oui</input>";
-                echo "<input type=\"radio\" name=\"points\" id=\"nonPoints\" value=\"nonPoints\">Non</input>";
+                if ($nbPoints == 0) {
+                    echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\" disabled>";
+                    echo "<label for=\"ouiPoints\">Oui</label>";
+                } else {
+                    echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\">";
+                    echo "<label for=\"ouiPoints\">Oui</label>";
+                }
+                echo "<input type=\"radio\" name=\"points\" id=\"nonPoints\" value=\"nonPoints\">";
+                echo "<label for=\"nonPoints\">Non</label>";
             }
 
             ?>
@@ -64,8 +84,8 @@
     if (isset($_POST['numCB']) && isset($_POST['dateExp']) && isset($_POST['codeSecu']) && $_POST['numCB'] != "" && $_POST['dateExp'] != "" && $_POST['codeSecu'] != "") {
         echo "<p>Le paiement a bien été effectué</p>";
         if (isset($_POST['points'])) {
-            echo $_POST['points'];
             if ($_POST['points'] == "ouiPoints") {
+
                 echo "<p>Les points ont bien été utilisés</p>";
             } else {
                 echo "<p>Les points n'ont pas été utilisés</p>";
