@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body>
+    <a href='../../index.php'>Retour à l'accueil</a>
     <h1>Liste des clients inactifs</h1>
     <?php
         include_once '../pdo_agile.php';
