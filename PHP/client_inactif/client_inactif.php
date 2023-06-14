@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body>
-    <a href='../../index.php'>Retour à l'accueil</a>
-    <h1>Liste des clients inactifs</h1>
     <nav>
         <ul>
-            <li><a href="../../../index.php">ACCUEIL</a></li>
+            <li><a href="../../index.php">ACCUEIL</a></li>
             <li><a href="../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
             <li><a href="../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
           </ul>
     </nav>
+    <a href='../../index.php'>Retour à l'accueil</a>
+    <h1>Liste des clients inactifs</h1>
+    
     <?php
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
