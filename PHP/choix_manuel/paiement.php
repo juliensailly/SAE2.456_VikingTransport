@@ -33,7 +33,7 @@
     <fieldset>
         <legend>Informations de paiement</legend>
         <?php
-        echo "<form action=\"paiement.php?numRes=".$_GET['numRes']."\" method=\"post\" class=\"paiementForm\">";
+        echo "<form action=\"paiement.php?numRes=" . $_GET['numRes'] . "\" method=\"post\" class=\"paiementForm\">";
         ?>
         <div class="formElement">
             <label for="numCB">Numéro de carte bancaire</label>
@@ -117,16 +117,15 @@
         if (isset($_SESSION['num'][0]['CLI_NUM'])) {
             $cli_num = $_SESSION['num'][0]['CLI_NUM'];
         }
-        
-        // $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
-        // $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-        // $prix = $tab[0]['RES_PRIX_TOT'];
-        // $sql = "select cli_nb_points_ec from vik_client where cli_num = " . $cli_num;
+
+        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
+        $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+        $prix = $tab[0]['RES_PRIX_TOT'];
+        $sql = "select cli_nb_points_ec from vik_client where cli_num = " . $cli_num;
         // if ($prix > )
+    
 
-
-        $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec - round(" . ($distance_totale / 10) . ")) where cli_num = $cli_num";
-        echo $sql;
+        $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec + round(" . ($distance_totale / 10) . ") where cli_num = $cli_num";
         $nbLignes = majDonneesPDO($conn, $sql);
         if ($nbLignes == 0) {
             echo "<br><br>Erreur lors de la mise à jour des points du client";
