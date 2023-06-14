@@ -11,6 +11,13 @@
     <body>
         <h1>Réservation de voyage</h1>
         <h3>Choisir une ligne</h3>
+        <nav>
+            <ul>
+                <li><a href="../../../index.php">ACCUEIL</a></li>
+                <li><a href="../../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+                <li><a href="../../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+            </ul>
+        </nav>
         <form action="index.php" method="post">
             <select name="ligne">
                 <option value="">--Selectionner une ligne</option>
