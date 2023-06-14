@@ -21,8 +21,9 @@
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
         $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
-        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . "and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
+        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+        echo $sql;
         $prix = $tab[0]['RES_PRIX_TOT'];
         echo "<h1>Paiement de la réservation : $prix €</h1>";
     } else {
@@ -117,10 +118,8 @@
         if (isset($_SESSION['num'][0]['CLI_NUM'])) {
             $cli_num = $_SESSION['num'][0]['CLI_NUM'];
         }
-        echo "<br><br>Client : " . $cli_num;
         $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec + round(" . ($distance_totale / 10) . "), cli_nb_points_tot = cli_nb_points_tot + round(" . ($distance_totale / 10) . ") where cli_num = $cli_num";
         $nbLignes = majDonneesPDO($conn, $sql);
-        echo $nbLignes;
         if ($nbLignes == 0) {
             echo "<br><br>Erreur lors de la mise à jour des points du client";
         }

@@ -201,15 +201,16 @@ session_start();
                 }
 
                 echo "<br><br>Distance totale : " . $distance_totale . " km<br>Prix total : " . $prix_total . " €";
-                $sql = "select tar_valeur from vik_tarif where ceil($distance_totale) between tar_min_dist and tar_max_dist";
+                $sql = "select tar_num_tranche from vik_tarif where ceil($distance_totale) between tar_min_dist and tar_max_dist";
                 $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
                 $tranchePrix = 1;
                 if ($nbLignesB == 0) {
                     $tranchePrix = 13;
                 } else {
-                    $tranchePrix = $tab2[0]['TAR_VALEUR'];
+                    $tranchePrix = $tab2[0]['TAR_NUM_TRANCHE'];
                 }
                 $sql = "update vik_reservation set tar_num_tranche = " . $tranchePrix . ", res_nb_points = round(" . ($distance_totale / 10) . "), res_prix_tot = $prix_total where res_num = '" . $_GET['numRes'] . "'";
+                echo $sql;
                 $nbLignesB = majDonneesPDO($conn, $sql);
                 
                 // Bouton de paiement
