@@ -1,10 +1,11 @@
 <?php
+    session_start();
+
     include_once '../../pdo_agile.php';
     include '../../param_connexion_etu.php';
    
     
     $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-    session_start();
     $email = $_SESSION['email'];
 
     $sql = "select cli_num from vik_client where cli_courriel = '$email'";

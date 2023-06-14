@@ -1,4 +1,5 @@
 <?php
+    session_start();
     echo "<a href='../../../index.php'>Retour à l'accueil</a> <br>";
     include_once '../../pdo_agile.php';
     $db_usernameOracle = "agile_1";
@@ -17,7 +18,6 @@
         $sql = "select cli_password from vik_client where cli_courriel = '$email'";
         $req = LireDonneesPDO2($conn, $sql, $tab);
         if(password_verify($password, $tab[0]['CLI_PASSWORD'])){
-            session_start();
             $_SESSION['email'] = $email;
             $sql = "select cli_num from vik_client where cli_courriel = '$email'";
             LireDonneesPDO1($conn,$sql,$tab_num);

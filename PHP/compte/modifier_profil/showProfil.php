@@ -1,3 +1,8 @@
+<?php
+        session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +26,6 @@
     
         include_once '../../pdo_agile.php';
         $conn = OuvrirConnexionPDO($dbOracle,$db_usernameOracle,$db_passwordOracle);
-        session_start();
         $email = $_SESSION['email'];
 
 
