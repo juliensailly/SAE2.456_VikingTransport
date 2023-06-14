@@ -22,13 +22,8 @@
       <li><a href="PHP/horairesLignes/horaires_ligne.php">HORAIRES</a></li>
       <?php
         if(isset($_SESSION['email']) && $_SESSION['email'] != null){
-<<<<<<< HEAD
           echo "<li><a href=\"PHP/compte/modifier_profil/form.html\" class=\"modif\">MODIFIER PROFIL</a></li>";
           echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\" class=\"show\">VOIR PROFIL</a></li>";
-=======
-          echo "<li><a href=\"PHP/compte/modifier_profil/form.html\">MODIFIER PROFIL</a></li>";
-          echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\">VOIR PROFIL</a></li>";
->>>>>>> e63fd6c2a6b003c3e6e1a5d71cce3afc73678b89
         }
       ?>
       
