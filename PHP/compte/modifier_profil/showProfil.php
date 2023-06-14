@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href='../../index.php'>Retour à l'accueil</a>
+    <a href='../../../index.php'>Retour à l'accueil</a>
     <?php
         $db_usernameOracle = "agile_1";
         $db_passwordOracle = "agile_1";
@@ -46,7 +46,7 @@
         join vik_client using (cli_num)
         join vik_commune co on cor.com_code_insee_depart = co.com_code_insee
         join vik_commune cot on cor.com_code_insee_arrivee = cot.com_code_insee
-        where cli_num = 58 ";
+        where cli_num = $num";
 
         $req = LireDonneesPDO2($conn, $sql, $tab);
         echo "<table> <tr> 
