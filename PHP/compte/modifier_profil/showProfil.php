@@ -20,7 +20,7 @@
 
 
         $sql = "select cli_nom, cli_prenom, cli_courriel, cli_date_naiss, cli_nb_points_ec, cli_nb_points_tot from vik_client where cli_courriel = '$email'";
-        $req = LireDonneesPDO2($conn, $sql, $tab);
+        $req = LireDonneesPDO1($conn, $sql, $tab);
 
         $nom = $tab[0]['CLI_NOM'];
         $prenom = $tab[0]['CLI_PRENOM'];
@@ -36,7 +36,7 @@
         echo "<p> Nb points totaux : $nbptstot</p>";
 
         $sql = "select cli_num from vik_client where cli_courriel = '$email'";
-        $req = LireDonneesPDO2($conn, $sql, $tab);
+        $req = LireDonneesPDO1($conn, $sql, $tab);
         $num = $tab[0]['CLI_NUM'];
 
         echo "<h2>Trajet</h2>";
@@ -48,7 +48,7 @@
         join vik_commune cot on cor.com_code_insee_arrivee = cot.com_code_insee
         where cli_num = $num";
 
-        $req = LireDonneesPDO2($conn, $sql, $tab);
+        $req = LireDonneesPDO1($conn, $sql, $tab);
         echo "<table> <tr> 
         <th width=20%>Numero de client</th>
         <th width=20%>Numero de reservation</th>
@@ -56,10 +56,13 @@
         <th width=20%>ville de départ</th>
         <th width=20%>ville d'arrivee</th> 
         </tr>";
+        if($req>0){
         for($i = 0; $i < count($tab); $i++){
+            
             echo "<tr><td>". $tab[$i]['NUMERO_DE_CLIENT']."</td><td>". $tab[$i]['NUMERO_DE_RESERVATION']."</td><td>". $tab[$i]['DISTANCE_DE_TRAJET']."</td>
             <td>". $tab[$i]['VILLE_DEPART']."</td><td>". $tab[$i]['VILLE_ARRIVEE']."</td></tr>";
         }
+    }
         echo"</table>";
         echo "<input type='button' value='Modifier' onclick='location.href=\"modifier_profil.php\"'>";
         $conn = null;
