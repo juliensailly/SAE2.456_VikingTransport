@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href='../../index.php'>Retour à l'accueil</a>
     <?php
         $db_usernameOracle = "agile_1";
         $db_passwordOracle = "agile_1";

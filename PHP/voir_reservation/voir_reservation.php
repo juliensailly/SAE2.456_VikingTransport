@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../CSS/style.css">
 </head>
 <body>
+    <a href='../../admin.php'>Retour à l'accueil</a>
     <form method="get">
         <select name="" id="" onchange="location=this.value;">
         <?php
