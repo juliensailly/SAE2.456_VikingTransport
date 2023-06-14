@@ -16,6 +16,13 @@
 </head>
 
 <body>
+    <nav>
+            <ul>
+                <li><a href="../../../index.php">ACCUEIL</a></li>
+                <li><a href="../../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+                <li><a href="../../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+            </ul>
+        </nav>
     <?php
     if (isset($_GET['numRes']) && isset($_SESSION['num'][0]['CLI_NUM'])) {
         include_once '../pdo_agile.php';
