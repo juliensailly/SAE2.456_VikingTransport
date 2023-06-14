@@ -23,6 +23,7 @@
       <?php
         if(isset($_SESSION['email']) && $_SESSION['email'] != null){
           echo "<li><a href=\"PHP/compte/modifier_profil/form.html\">MODIFIER PROFIL</a></li>";
+          echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\">VOIR PROFIL</a></li>";
         }
       ?>
       

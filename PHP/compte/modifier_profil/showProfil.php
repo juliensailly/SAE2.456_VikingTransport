@@ -64,7 +64,7 @@
         }
     }
         echo"</table>";
-        echo "<input type='button' value='Modifier' onclick='location.href=\"modifier_profil.php\"'>";
+        echo "<input type='button' value='Modifier' onclick='location.href=\"form.html\"'>";
         $conn = null;
         
     ?>
