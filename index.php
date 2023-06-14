@@ -22,8 +22,11 @@
       <?php
         session_start();
         if(isset($_SESSION['admin'])){
-          echo "<li><a href=\"admin.php\">ADMIN</a></li>";
+          if($_SESSION['admin'] == true){
+                    echo "<li><a href=\"admin.php\">ADMIN</a></li>";
+            }
         }
+        
       ?>
       <?php
         if(isset($_SESSION['email'])){
