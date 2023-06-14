@@ -103,7 +103,7 @@ session_start();
                 JOIN vik_reservation USING (cli_num)
                 WHERE res_num = " . $_GET['numRes'];
                 $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
-                $nbPoints = $tab[0]['CLI_NB_POINTS_ec'];
+                $nbPoints = $tab[0]['CLI_NB_POINTS_EC'];
 
                 $sql = "update vik_client set cli_nb_points_ec = (select cli_nb_points_ec from vik_client where cli_num = " . $cli_num . ") - $nbPoints where cli_num = " . $cli_num;
                 $nbLignes = majDonneesPDO($conn, $sql);
