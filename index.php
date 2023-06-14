@@ -22,23 +22,28 @@
       <li><a href="PHP/horairesLignes/horaires_ligne.php">HORAIRES</a></li>
       <?php
         if(isset($_SESSION['email']) && $_SESSION['email'] != null){
+<<<<<<< HEAD
+          echo "<li><a href=\"PHP/compte/modifier_profil/form.html\" class=\"modif\">MODIFIER PROFIL</a></li>";
+          echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\" class=\"show\">VOIR PROFIL</a></li>";
+=======
           echo "<li><a href=\"PHP/compte/modifier_profil/form.html\">MODIFIER PROFIL</a></li>";
           echo "<li><a href=\"PHP/compte/modifier_profil/showProfil.php\">VOIR PROFIL</a></li>";
+>>>>>>> e63fd6c2a6b003c3e6e1a5d71cce3afc73678b89
         }
       ?>
       
-      <li><a href="PHP/statistiques/statistiques.php">STATISTIQUES</a></li>
-      <li><a href="PHP/choix_manuel/trajet.php">RESERVER</a></li>
+      <li><a href="PHP/statistiques/statistiques.php" class="stat">STATISTIQUES</a></li>
+      <li><a href="PHP/choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
       <?php
         if(isset($_SESSION['admin'])){
           if($_SESSION['admin'] == true){
-                    echo "<li><a href=\"admin.php\">ADMIN</a></li>";
+                    echo "<li><a href=\"admin.php\" class=\"admin\">ADMIN</a></li>";
             }
         }
       ?>
       <?php
         if(isset($_SESSION['email'])){
-          echo "<li><a href=\"PHP/compte/deconnexion/deconnexion.php\">Deconnexion</a></li>";
+          echo "<li><a href=\"PHP/compte/deconnexion/deconnexion.php\" class=\"deco\">Deconnexion</a></li>";
         }
       ?>
     </ul>
