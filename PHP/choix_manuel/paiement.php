@@ -19,12 +19,12 @@ session_start();
 
 <body>
     <nav>
-            <ul>
-                <li><a href="../../index.php">ACCUEIL</a></li>
-                <li><a href="../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
-                <li><a href="../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
-            </ul>
-        </nav>
+        <ul>
+            <li><a href="../../index.php">ACCUEIL</a></li>
+            <li><a href="../horairesLignes/horaires_ligne.php">HORAIRES</a></li>
+            <li><a href="../choix_manuel/trajet.php" class="reserv">RESERVER</a></li>
+        </ul>
+    </nav>
     <?php
     if (isset($_GET['numRes']) && isset($_SESSION['num'][0]['CLI_NUM'])) {
         include_once '../pdo_agile.php';
@@ -125,20 +125,18 @@ session_start();
         $cli_num = 0;
         if (isset($_SESSION['num'][0]['CLI_NUM'])) {
             $cli_num = $_SESSION['num'][0]['CLI_NUM'];
+            $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec + round(" . ($distance_totale / 10) . "), cli_nb_points_tot = cli_nb_points_tot + round(" . ($distance_totale / 10) . ") where cli_num = $cli_num";
+            $nbLignes = majDonneesPDO($conn, $sql);
         }
 
         $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . " and cli_num = " . $cli_num;
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         $prix = $tab[0]['RES_PRIX_TOT'];
         $sql = "select cli_nb_points_ec from vik_client where cli_num = " . $cli_num;
-        // if ($prix > )
-    
+        $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
 
-        $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec + round(" . ($distance_totale / 10) . ") where cli_num = $cli_num";
-        $nbLignes = majDonneesPDO($conn, $sql);
-        if ($nbLignes == 0) {
-            echo "<br><br>Erreur lors de la mise à jour des points du client";
-        }
+
+
     }
     $conn = null;
     ?>
