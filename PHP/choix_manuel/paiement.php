@@ -17,24 +17,23 @@
 
 <body>
     <?php
-    if (isset($_GET['numRes'])) {
+    if (isset($_GET['numRes']) && isset($_SESSION['num'][0]['CLI_NUM'])) {
         include_once '../pdo_agile.php';
         include '../param_connexion_etu.php';
         $conn = OuvrirConnexionPDO($dbOracle, $db_usernameOracle, $db_passwordOracle);
-        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'];
+        $sql = "select res_prix_tot from vik_reservation where res_num = " . $_GET['numRes'] . "and cli_num = " . $_SESSION['num'][0]['CLI_NUM'];
         $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
         $prix = $tab[0]['RES_PRIX_TOT'];
         echo "<h1>Paiement de la réservation : $prix €</h1>";
     } else {
         echo "<h1>Paiement de la réservation</h1>";
     }
-    echo "|" . $_SESSION['num'] . "|";
     ?>
 
     <fieldset>
         <legend>Informations de paiement</legend>
         <?php
-        echo "<form action=\"paiement.php\" method=\"post\" class=\"paiementForm\">";
+        echo "<form action=\"paiement.php?numRes=".$_GET['numRes']."\" method=\"post\" class=\"paiementForm\">";
         ?>
         <div class="formElement">
             <label for="numCB">Numéro de carte bancaire</label>
@@ -62,16 +61,17 @@
                 $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
                 $nbPoints = $tab[0]['CLI_NB_POINTS_TOT'];
                 echo "($nbPoints) :</label>";
-                $conn = null;
                 if ($nbPoints == 0) {
                     echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\" disabled>";
                     echo "<label for=\"ouiPoints\">Oui</label>";
+                    echo "<input type=\"radio\" name=\"points\" id=\"nonPoints\" value=\"nonPoints\" checked>";
+                    echo "<label for=\"nonPoints\">Non</label>";
                 } else {
                     echo "<input type=\"radio\" name=\"points\" id=\"ouiPoints\" value=\"ouiPoints\">";
                     echo "<label for=\"ouiPoints\">Oui</label>";
+                    echo "<input type=\"radio\" name=\"points\" id=\"nonPoints\" value=\"nonPoints\" checked>";
+                    echo "<label for=\"nonPoints\">Non</label>";
                 }
-                echo "<input type=\"radio\" name=\"points\" id=\"nonPoints\" value=\"nonPoints\">";
-                echo "<label for=\"nonPoints\">Non</label>";
             }
 
             ?>
@@ -85,13 +85,47 @@
         echo "<p>Le paiement a bien été effectué</p>";
         if (isset($_POST['points'])) {
             if ($_POST['points'] == "ouiPoints") {
+                $cli_num = 0;
+                if (isset($_SESSION['num'][0]['CLI_NUM'])) {
+                    $cli_num = $_SESSION['num'][0]['CLI_NUM'];
+                }
+                $sql = "SELECT cli_num, cli_nb_points_tot, res_num
+                FROM vik_client
+                JOIN vik_reservation USING (cli_num)
+                WHERE res_num = " . $_GET['numRes'];
+                $nbLignes = LireDonneesPDO1($conn, $sql, $tab);
+                $nbPoints = $tab[0]['CLI_NB_POINTS_TOT'];
 
-                echo "<p>Les points ont bien été utilisés</p>";
+                $sql = "update vik_client set cli_nb_points_ec = (select cli_nb_points_ec from vik_client where cli_num = " . $cli_num . ") - $nbPoints where cli_num = " . $cli_num;
+                $nbLignes = majDonneesPDO($conn, $sql);
+                if ($nbLignes == 1) {
+                    echo "<p>Les points ont bien été utilisés</p>";
+                } else {
+                    echo "<p>Les points n'ont pas été utilisés</p>";
+                }
             } else {
                 echo "<p>Les points n'ont pas été utilisés</p>";
             }
         }
+
+        $sql = "select sum(corr_distance) as distance_totale from vik_correspondance where res_num = '" . $_GET['numRes'] . "'";
+        $nbLignesB = LireDonneesPDO1($conn, $sql, $tab2);
+        $distance_totale = $tab2[0]['DISTANCE_TOTALE'];
+        $distance_totale = str_replace(",", ".", $distance_totale);
+
+        $cli_num = 0;
+        if (isset($_SESSION['num'][0]['CLI_NUM'])) {
+            $cli_num = $_SESSION['num'][0]['CLI_NUM'];
+        }
+        echo "<br><br>Client : " . $cli_num;
+        $sql = "update vik_client set cli_nb_points_ec = cli_nb_points_ec + round(" . ($distance_totale / 10) . "), cli_nb_points_tot = cli_nb_points_tot + round(" . ($distance_totale / 10) . ") where cli_num = $cli_num";
+        $nbLignes = majDonneesPDO($conn, $sql);
+        echo $nbLignes;
+        if ($nbLignes == 0) {
+            echo "<br><br>Erreur lors de la mise à jour des points du client";
+        }
     }
+    $conn = null;
     ?>
 </body>
 
